@@ -1,0 +1,3744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Madrid or Bust — Built for Tash</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap');
+
+  :root {
+    --cream: #FAF7F2;
+    --warm-white: #F5F0E8;
+    --ink: #1A1712;
+    --charcoal: #2D2926;
+    --brown: #6B4F3A;
+    --terracotta: #C4623A;
+    --terra-light: #E8895C;
+    --sand: #D4B896;
+    --sand-light: #EDD9C0;
+    --muted: #8A7B6F;
+    --border: rgba(107,79,58,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,247,242,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 0 0 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 58px;
+    overflow: hidden;
+  }
+
+  nav::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 40px;
+    background: linear-gradient(to right, transparent, rgba(250,247,242,0.95));
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .nav-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--terracotta);
+    font-style: italic;
+  }
+
+  .nav-tabs { display: flex; gap: 0; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 0 1.2rem;
+    height: 58px;
+    display: flex; align-items: center;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+
+  .nav-tab:hover { color: var(--charcoal); }
+  .nav-tab.active { color: var(--terracotta); border-bottom-color: var(--terracotta); }
+
+  .nav-badge {
+    background: var(--terracotta);
+    color: white;
+    font-size: 0.5rem;
+    font-weight: 600;
+    padding: 2px 5px;
+    border-radius: 2px;
+    margin-left: 5px;
+    letter-spacing: 0.04em;
+  }
+
+  main { padding-top: 58px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ========== PITCH DECK ========== */
+  .pitch-wrap { min-height: calc(100vh - 58px); display: flex; flex-direction: column; }
+
+  .slide {
+    display: none;
+    min-height: calc(100vh - 58px - 68px);
+    padding: 4rem;
+    position: relative;
+    animation: fadeUp 0.4s ease;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .slide.active { display: flex; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Slide 1 – Hero */
+  .slide-1 {
+    background: var(--ink);
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
+
+  .slide-1::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 45%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--terracotta) 0%, #8B3520 100%);
+    clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+  }
+
+  .slide-1-content {
+    position: relative; z-index: 1;
+    max-width: 520px;
+    display: flex; flex-direction: column; gap: 1.5rem;
+  }
+
+  .tag {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sand);
+  }
+
+  .tag::before { content: '●'; font-size: 0.4rem; }
+
+  .slide-1 h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.1;
+  }
+
+  .slide-1 h1 em {
+    font-style: italic;
+    color: var(--terra-light);
+  }
+
+  .slide-1 p {
+    font-size: 0.95rem;
+    color: var(--sand);
+    line-height: 1.8;
+    font-weight: 300;
+    max-width: 420px;
+  }
+
+  .slide-1-accent {
+    position: absolute;
+    right: 8%;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    text-align: center;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .accent-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+    display: block;
+  }
+
+  .accent-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    display: block;
+    margin-top: 0.5rem;
+  }
+
+  /* Slide 2 – Her Situation */
+  .slide-2 { background: var(--warm-white); }
+
+  .slide-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 2rem;
+  }
+
+  .slide-2 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 400;
+    color: var(--charcoal);
+    line-height: 1.2;
+    margin-bottom: 2.5rem;
+    max-width: 640px;
+  }
+
+  .challenge-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .challenge-card {
+    background: var(--warm-white);
+    padding: 2rem 1.5rem;
+  }
+
+  .challenge-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .challenge-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--charcoal);
+    margin-bottom: 0.5rem;
+  }
+
+  .challenge-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* Slide 3 – What I'll Build */
+  .slide-3 { background: var(--cream); }
+
+  .slide-3 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    line-height: 1.2;
+  }
+
+  .deliverable-list { display: flex; flex-direction: column; }
+
+  .deliverable {
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .deliverable-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--terracotta);
+    letter-spacing: 0.1em;
+  }
+
+  .deliverable-info {}
+
+  .deliverable-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+  }
+
+  .deliverable-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .deliverable-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--terracotta);
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+  }
+
+  /* Slide 4 – The Madrid Play */
+  .slide-4 { background: var(--charcoal); }
+
+  .slide-4 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 2.5rem;
+    max-width: 580px;
+    line-height: 1.2;
+  }
+
+  .madrid-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .madrid-card {
+    background: var(--charcoal);
+    padding: 2rem;
+  }
+
+  .madrid-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--terra-light);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+
+  .madrid-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--cream);
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+  }
+
+  .madrid-card-body {
+    font-size: 0.78rem;
+    color: var(--sand);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* Slide 5 – The Deal */
+  .slide-5 {
+    background: var(--terracotta);
+    align-items: center;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .slide-5 h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 400;
+    color: white;
+    line-height: 1.15;
+    max-width: 700px;
+  }
+
+  .slide-5 h2 em { font-style: italic; opacity: 0.85; }
+
+  .deal-box {
+    border: 1px solid rgba(255,255,255,0.4);
+    padding: 2.5rem 3.5rem;
+    max-width: 680px;
+    background: rgba(255,255,255,0.08);
+  }
+
+  .deal-box p {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.9;
+    font-weight: 300;
+    margin-bottom: 2rem;
+  }
+
+  .deal-terms {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .deal-term {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.08em;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+
+  .deal-term::before { content: '✓'; color: white; }
+
+  .terra-divider {
+    width: 50px; height: 1px;
+    background: rgba(255,255,255,0.4);
+    margin: 0 auto;
+  }
+
+  /* Slide Nav */
+  .slide-nav {
+    height: 68px;
+    background: var(--warm-white);
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4rem;
+  }
+
+  .slide-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .slide-dots { display: flex; gap: 8px; }
+
+  .slide-dot {
+    width: 6px; height: 6px;
+    background: var(--sand-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 50%;
+  }
+
+  .slide-dot.active { background: var(--terracotta); width: 22px; border-radius: 3px; }
+
+  .slide-btns { display: flex; gap: 0.8rem; }
+
+  .slide-btn {
+    padding: 0.5rem 1.2rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .slide-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+  .slide-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+  /* ========== AI TOOL ========== */
+  .ai-wrap {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .tool-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tool-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+  }
+
+  .tool-header p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+  .tool-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .field-group { display: flex; flex-direction: column; gap: 5px; }
+  .field-group.full { grid-column: 1 / -1; }
+
+  .field-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    color: var(--terracotta);
+    text-transform: uppercase;
+  }
+
+  .field-input, .field-select {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 0.7rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    border-radius: 2px;
+  }
+
+  .field-input:focus, .field-select:focus { border-color: var(--terracotta); }
+  .field-select option { background: white; }
+
+  .field-textarea {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 0.7rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 300;
+    outline: none;
+    resize: vertical;
+    min-height: 80px;
+    width: 100%;
+    transition: border-color 0.2s;
+    border-radius: 2px;
+  }
+
+  .field-textarea:focus { border-color: var(--terracotta); }
+
+  .generate-btn {
+    width: 100%;
+    padding: 1rem;
+    background: var(--terracotta);
+    border: none;
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-bottom: 1.2rem;
+    border-radius: 2px;
+  }
+
+  .generate-btn:hover { background: #A84F2E; }
+  .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .output-box {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 2rem;
+    display: none;
+    border-radius: 2px;
+  }
+
+  .output-box.visible { display: block; }
+
+  .output-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.8rem;
+  }
+
+  .output-label::after {
+    content: ''; flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .output-content {
+    font-size: 0.88rem;
+    color: var(--charcoal);
+    line-height: 1.9;
+    font-weight: 300;
+    white-space: pre-wrap;
+  }
+
+  .loading-ring {
+    display: inline-block;
+    width: 12px; height: 12px;
+    border: 2px solid rgba(196,98,58,0.2);
+    border-top-color: var(--terracotta);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ========== CAMPAIGN ASSETS ========== */
+  .campaign-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .campaign-header { margin-bottom: 2rem; }
+
+  .campaign-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+  }
+
+  .campaign-header p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+  .campaign-tabs {
+    display: flex; gap: 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ctab {
+    padding: 0.7rem 1.3rem;
+    background: transparent;
+    border: none; border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+  }
+
+  .ctab:hover { color: var(--charcoal); }
+  .ctab.active { color: var(--terracotta); border-bottom-color: var(--terracotta); }
+
+  .ctab-content { display: none; }
+  .ctab-content.active { display: block; }
+
+  .asset-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .asset-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    position: relative;
+    border-radius: 2px;
+  }
+
+  .asset-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+
+  .asset-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--charcoal);
+    margin-bottom: 0.8rem;
+    font-weight: 400;
+  }
+
+  .asset-body {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .asset-body strong { color: var(--charcoal); font-weight: 500; }
+  .asset-body em { color: var(--terracotta); font-style: italic; }
+
+  .asset-tag {
+    position: absolute;
+    top: 1.2rem; right: 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.48rem;
+    background: var(--sand-light);
+    color: var(--brown);
+    padding: 3px 8px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-radius: 2px;
+  }
+
+  /* ========== PLAYBOOK ========== */
+  .playbook-wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .playbook-header {
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .playbook-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+  }
+
+  .playbook-header p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+  .phase-list { display: flex; flex-direction: column; gap: 2px; }
+
+  .phase {
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    transition: border-left-color 0.2s;
+    cursor: pointer;
+    border-radius: 2px;
+  }
+
+  .phase:hover { border-left-color: var(--sand); }
+  .phase.open { border-left-color: var(--terracotta); }
+
+  .phase-header {
+    display: flex; align-items: center; gap: 1.5rem;
+    padding: 1.3rem 1.5rem;
+  }
+
+  .phase-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.3rem;
+    color: var(--terracotta);
+    font-weight: 300;
+    min-width: 2rem;
+  }
+
+  .phase-info { flex: 1; }
+
+  .phase-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    font-weight: 400;
+  }
+
+  .phase-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+
+  .phase-arrow { font-size: 0.65rem; color: var(--muted); transition: transform 0.25s; }
+  .phase.open .phase-arrow { transform: rotate(90deg); color: var(--terracotta); }
+
+  .phase-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+  .phase.open .phase-body { max-height: 700px; }
+
+  .phase-inner { padding: 0 1.5rem 1.8rem 5rem; }
+
+  .step-list { display: flex; flex-direction: column; gap: 0.8rem; }
+
+  .step { display: flex; gap: 1rem; align-items: flex-start; }
+
+  .step-check {
+    width: 16px; height: 16px;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    margin-top: 3px;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .step-check.done { background: var(--terracotta); border-color: var(--terracotta); }
+
+  .step-check.done::after {
+    content: '✓';
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.55rem;
+    color: white;
+  }
+
+  .step-text { font-size: 0.82rem; color: var(--charcoal); line-height: 1.7; font-weight: 300; }
+  .step-text strong { color: var(--ink); font-weight: 500; }
+
+  @media (max-width: 720px) {
+    .tool-grid, .asset-grid, .challenge-grid, .madrid-grid { grid-template-columns: 1fr; }
+    .slide { padding: 2rem 1.5rem; }
+    .slide-nav { padding: 0 1.5rem; }
+    .nav-tab { padding: 0 0.7rem; font-size: 0.62rem; }
+    .slide-1::before { display: none; }
+    .slide-1-accent { display: none; }
+    .deliverable { grid-template-columns: 40px 1fr; }
+    .deliverable-value { display: none; }
+  }
+  /* ========== $50K TRACKER ========== */
+  .tracker-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .tracker-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .tracker-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+  }
+
+  .tracker-header p { font-size: 0.85rem; color: var(--muted); font-weight: 300; }
+  .tracker-header strong { color: var(--terracotta); font-weight: 500; }
+
+  .goal-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 2rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .goal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
+  }
+
+  .goal-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .goal-amount {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    line-height: 1;
+  }
+
+  .progress-track {
+    height: 10px;
+    background: var(--warm-white);
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 0.6rem;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--terracotta), var(--terra-light));
+    border-radius: 5px;
+    transition: width 0.5s ease;
+    max-width: 100%;
+  }
+
+  .progress-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .remaining-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 0.4rem;
+  }
+
+  .controls-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .control-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 1.2rem;
+    border-radius: 2px;
+  }
+
+  .control-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 6px;
+  }
+
+  .control-input {
+    width: 100%;
+    background: var(--warm-white);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    padding: 0.6rem 0.8rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    outline: none;
+    border-radius: 2px;
+    transition: border-color 0.2s;
+  }
+
+  .control-input:focus { border-color: var(--terracotta); }
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .result-card {
+    background: white;
+    padding: 1.4rem;
+  }
+
+  .highlight-card { background: var(--charcoal); }
+
+  .result-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .highlight-card .result-label { color: var(--sand); }
+
+  .result-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--charcoal);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .highlight-card .result-value { color: var(--cream); }
+
+  .result-value.good { color: #4A8C5C; }
+  .result-value.bad { color: var(--terracotta); }
+
+  .breakdown-section { margin-bottom: 2rem; }
+
+  .breakdown-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 1rem;
+  }
+
+  .breakdown-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+  }
+
+  .breakdown-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+  }
+
+  .breakdown-table th {
+    background: var(--charcoal);
+    color: var(--sand);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.8rem 1rem;
+    text-align: left;
+    font-weight: 400;
+  }
+
+  .breakdown-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    color: var(--charcoal);
+    font-weight: 300;
+  }
+
+  .breakdown-table tr:last-child td { border-bottom: none; }
+  .breakdown-table tr:nth-child(even) td { background: var(--warm-white); }
+  .breakdown-table tr.goal-hit td { background: rgba(74,140,92,0.08); }
+  .breakdown-table td.on-track { color: #4A8C5C; font-weight: 500; }
+  .breakdown-table td.behind { color: var(--terracotta); }
+  .breakdown-table td.month-label { font-weight: 500; color: var(--ink); }
+
+  .rent-impact-card {
+    background: var(--charcoal);
+    padding: 2rem;
+    border-radius: 2px;
+    margin-bottom: 2rem;
+  }
+
+  .rent-impact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+  }
+
+  .rent-impact-body {
+    font-size: 0.82rem;
+    color: var(--sand);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .rent-impact-body em { color: var(--terra-light); font-style: normal; font-weight: 500; }
+
+  .rent-result-box {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 1rem 1.5rem;
+    border-radius: 2px;
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .rent-result-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--sand);
+    margin-bottom: 4px;
+  }
+
+  .rent-result-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--terra-light);
+    font-weight: 400;
+  }
+
+  @media (max-width: 720px) {
+    .controls-grid { grid-template-columns: 1fr 1fr; }
+    .results-grid { grid-template-columns: 1fr 1fr; }
+  }
+  /* ========== PERSONAL LETTER ========== */
+  .letter-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .letter-paper {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 3.5rem 4rem;
+    border-radius: 2px;
+    box-shadow: 0 4px 40px rgba(0,0,0,0.06);
+  }
+
+  .letter-header-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .letter-from {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .letter-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    color: var(--muted);
+  }
+
+  .letter-salutation {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--charcoal);
+    margin-bottom: 1.8rem;
+    font-style: italic;
+  }
+
+  .letter-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+  }
+
+  .letter-body p {
+    font-size: 0.92rem;
+    color: var(--charcoal);
+    line-height: 1.9;
+    font-weight: 300;
+  }
+
+  .letter-sign {
+    margin-top: 2.5rem;
+    font-size: 0.88rem;
+    color: var(--muted);
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  .letter-sign-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    font-style: italic;
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  .letter-ps {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .letter-ps strong { color: var(--terracotta); font-weight: 500; }
+
+  /* ========== IG AUDIT ========== */
+  .audit-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .audit-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .audit-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+  }
+
+  .audit-header p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+  .audit-score-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .score-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .score-ring {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(var(--terracotta) var(--pct), var(--warm-white) var(--pct));
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 0.8rem;
+    position: relative;
+  }
+
+  .score-ring::before {
+    content: '';
+    position: absolute;
+    width: 60px; height: 60px;
+    background: white;
+    border-radius: 50%;
+  }
+
+  .score-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--charcoal);
+    position: relative; z-index: 1;
+    font-weight: 400;
+  }
+
+  .score-note {
+    font-size: 0.7rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .audit-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .audit-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    border-radius: 2px;
+  }
+
+  .audit-good { border-top: 3px solid #4A8C5C; }
+  .audit-fix { border-top: 3px solid var(--terracotta); }
+
+  .audit-card-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+  }
+
+  .audit-items { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .audit-item-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+    font-weight: 400;
+  }
+
+  .audit-item-body {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .three-fixes {
+    background: var(--charcoal);
+    padding: 2rem;
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .three-fixes-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--cream);
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+  }
+
+  .fixes-list { display: flex; flex-direction: column; gap: 1.2rem; }
+
+  .fix-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+
+  .fix-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--terracotta);
+    line-height: 1;
+    min-width: 2rem;
+    font-weight: 400;
+  }
+
+  .fix-title {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--cream);
+    margin-bottom: 0.3rem;
+  }
+
+  .fix-body {
+    font-size: 0.78rem;
+    color: var(--sand);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .fix-body em { color: var(--terra-light); font-style: normal; }
+
+  .pricing-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--terracotta);
+    padding: 2rem;
+    border-radius: 2px;
+  }
+
+  .pricing-box-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  .pricing-body p {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  .pricing-calc-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pcalc {
+    background: var(--warm-white);
+    padding: 1rem;
+    border-radius: 2px;
+    text-align: center;
+  }
+
+  .highlight-pcalc { background: var(--charcoal); }
+
+  .pcalc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+  }
+
+  .highlight-pcalc .pcalc-label { color: var(--sand); }
+
+  .pcalc-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    color: var(--terracotta);
+    font-weight: 400;
+  }
+
+  .highlight-pcalc .pcalc-val { color: var(--terra-light); }
+
+  /* ========== MADRID 101 ========== */
+  .m101-wrap {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .m101-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .m101-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+  }
+
+  .m101-header p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+  .m101-tabs {
+    display: flex; gap: 0;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .m101tab {
+    padding: 0.7rem 1.3rem;
+    background: transparent;
+    border: none; border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: -1px;
+  }
+
+  .m101tab:hover { color: var(--charcoal); }
+  .m101tab.active { color: var(--terracotta); border-bottom-color: var(--terracotta); }
+
+  .m101-content { display: none; }
+  .m101-content.active { display: block; }
+
+  .guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .guide-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    border-radius: 2px;
+  }
+
+  .guide-icon { font-size: 1.5rem; margin-bottom: 0.7rem; }
+
+  .guide-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--charcoal);
+    margin-bottom: 0.8rem;
+    font-weight: 400;
+    line-height: 1.3;
+  }
+
+  .guide-body {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  .guide-body strong { color: var(--charcoal); font-weight: 500; }
+  .guide-body em { color: var(--terracotta); font-style: italic; }
+  .guide-body br { display: block; margin-bottom: 0.2rem; content: ''; }
+
+  /* ========== YOUR SPACE ========== */
+  .space-wrap {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+  }
+
+  .space-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .space-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+  }
+
+  .space-header p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+
+  .space-insight-banner {
+    background: var(--sand-light);
+    border: 1px solid var(--sand);
+    padding: 1.5rem;
+    border-radius: 2px;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .sib-icon { font-size: 1.4rem; flex-shrink: 0; }
+
+  .sib-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--charcoal);
+    margin-bottom: 0.3rem;
+    font-weight: 400;
+  }
+
+  .sib-body { font-size: 0.8rem; color: var(--brown); line-height: 1.6; font-weight: 300; }
+
+  .space-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .space-card {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 1.8rem;
+    border-radius: 2px;
+  }
+
+  .space-card-primary {
+    grid-column: 1 / -1;
+    background: var(--warm-white);
+    border-color: var(--sand);
+  }
+
+  .space-card-timeline {
+    grid-column: 1 / -1;
+    background: var(--charcoal);
+    border-color: transparent;
+  }
+
+  .space-card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .space-card-timeline .space-card-label { color: var(--sand); }
+
+  .space-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+    font-weight: 400;
+    line-height: 1.2;
+  }
+
+  .space-card-timeline .space-card-title { color: var(--cream); }
+
+  .space-card-body p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1rem;
+  }
+
+  .space-calc {
+    background: rgba(107,79,58,0.06);
+    border-radius: 2px;
+    padding: 1rem;
+    margin: 0.8rem 0;
+  }
+
+  .space-card-timeline .space-calc { background: rgba(255,255,255,0.07); }
+
+  .space-calc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.4rem 0;
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 300;
+    border-bottom: 1px solid rgba(107,79,58,0.08);
+  }
+
+  .space-calc-row:last-child { border-bottom: none; }
+
+  .space-card-timeline .space-calc-row { color: var(--sand); border-bottom-color: rgba(255,255,255,0.06); }
+
+  .space-calc-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--terracotta);
+    font-weight: 400;
+  }
+
+  .highlight-row { margin-top: 0.3rem; }
+  .highlight-row .space-calc-val { color: #4A8C5C; font-size: 1.1rem; }
+  .space-card-timeline .highlight-row .space-calc-val { color: var(--terra-light); }
+
+  .space-note {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .space-card-timeline .space-note { color: rgba(255,255,255,0.4); }
+
+  @media (max-width: 720px) {
+    .letter-paper { padding: 2rem 1.5rem; }
+    .audit-score-row { grid-template-columns: 1fr 1fr; }
+    .audit-grid, .guide-grid, .space-grid { grid-template-columns: 1fr; }
+    .space-card-primary, .space-card-timeline { grid-column: 1; }
+    .pricing-calc-row { grid-template-columns: 1fr; }
+  }
+  /* ========== MORE TOOLS ========== */
+  .tools-wrap { max-width: 960px; margin: 0 auto; padding: 3rem 2rem; }
+  .tools-header { margin-bottom: 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+  .tools-header h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 400; color: var(--charcoal); margin-bottom: 0.3rem; }
+  .tools-header p { font-size: 0.82rem; color: var(--muted); font-weight: 300; }
+  .tools-section-title {
+    font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--terracotta); margin: 2.5rem 0 1rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .tools-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 0.5rem; }
+  .tool-card {
+    background: white; border: 1px solid var(--border); padding: 1.8rem; border-radius: 2px;
+    position: relative; transition: border-color 0.2s;
+  }
+  .tool-card:hover { border-color: var(--sand); }
+  .tool-card-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+  .tool-card-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--charcoal); margin-bottom: 0.5rem; }
+  .tool-card-body { font-size: 0.78rem; color: var(--muted); line-height: 1.7; font-weight: 300; }
+  .tool-card-body strong { color: var(--charcoal); font-weight: 500; }
+  .tool-card-body a { color: var(--terracotta); text-decoration: none; }
+  .tool-card-body a:hover { text-decoration: underline; }
+  .tool-tag {
+    position: absolute; top: 1.2rem; right: 1.2rem;
+    font-family: 'DM Mono', monospace; font-size: 0.48rem;
+    background: var(--sand-light); color: var(--brown); padding: 3px 8px;
+    letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px;
+  }
+  .tool-tag.forever { background: rgba(74,140,92,0.12); color: #4A8C5C; }
+  .tool-tag.free { background: rgba(196,98,58,0.1); color: var(--terracotta); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">Madrid or Bust ✦</div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showSection('letter', this)">✦ From Clint</div>
+    <div class="nav-tab" onclick="showSection('pitch', this)">Your Madrid Case</div>
+    <div class="nav-tab" onclick="showSection('tracker', this)">$50K Tracker</div>
+    <div class="nav-tab" onclick="showSection('space', this)">Your Space</div>
+    <div class="nav-tab" onclick="showSection('audit', this)">IG Audit</div>
+    <div class="nav-tab" onclick="showSection('madrid101', this)">Madrid 101</div>
+    <div class="nav-tab" onclick="showSection('tools', this)">More Tools <span class="nav-badge">New</span></div>
+    <div class="nav-tab" onclick="showSection('campaign', this)">Launch Kit</div>
+    <div class="nav-tab" onclick="showSection('ai', this)">Content Tool <span class="nav-badge">Live</span></div>
+    <div class="nav-tab" onclick="showSection('playbook', this)">Playbook</div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===== PITCH DECK ===== -->
+<div id="section-pitch" class="section">
+  <div class="pitch-wrap">
+    <div class="slide-viewer">
+
+      <!-- Slide 1 -->
+      <div class="slide slide-1 active" id="slide-1">
+        <div class="slide-1-content">
+          <div class="tag">Built for Tash · From Clint</div>
+          <h1>You've built something <em>real</em> here. Let's make sure Madrid is even better.</h1>
+          <p>You're already skilled enough. You're already brave enough. What you need now is a clear plan, the right tools, and a head start — built specifically around you, your numbers, and your timeline.</p>
+        </div>
+        <div class="slide-1-accent">
+          <span class="accent-big">1 yr</span>
+          <span class="accent-sub">of rent · traded for</span>
+          <span class="accent-big" style="font-size:2.5rem;margin-top:0.5rem">a Madrid<br>launchpad</span>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide slide-2" id="slide-2">
+        <div class="slide-label">01 — What You're Facing</div>
+        <h2>Moving to Madrid and starting over in barbering is exciting. It's also a lot.</h2>
+        <div class="challenge-grid">
+          <div class="challenge-card">
+            <div class="challenge-icon">🌍</div>
+            <div class="challenge-title">Zero local reputation</div>
+            <div class="challenge-desc">No reviews, no word-of-mouth, no existing client base in a city where trust is everything in barbering.</div>
+          </div>
+          <div class="challenge-card">
+            <div class="challenge-icon">📱</div>
+            <div class="challenge-title">Starting from scratch online</div>
+            <div class="challenge-desc">Your Instagram and brand is Toronto-built. Repositioning for a Spanish audience takes strategy, not just posting.</div>
+          </div>
+          <div class="challenge-card">
+            <div class="challenge-icon">🗓️</div>
+            <div class="challenge-title">2 years to prep, not 2 months</div>
+            <div class="challenge-desc">The barbers who win in new cities start building their online presence before they arrive — not after.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide slide-3" id="slide-3">
+        <div class="slide-label">02 — What I'll Build For You</div>
+        <h2>A complete Madrid launch system — built now, deployed when you're ready.</h2>
+        <div class="deliverable-list">
+          <div class="deliverable">
+            <div class="deliverable-num">01</div>
+            <div class="deliverable-info">
+              <div class="deliverable-name">Madrid Brand Identity</div>
+              <div class="deliverable-desc">New visual positioning for the Spanish market — logo refresh, colour palette, Instagram aesthetic guide, and brand voice tailored to Madrid's barbering culture.</div>
+            </div>
+            <div class="deliverable-value">~$2,500 value</div>
+          </div>
+          <div class="deliverable">
+            <div class="deliverable-num">02</div>
+            <div class="deliverable-info">
+              <div class="deliverable-name">90-Day Pre-Launch Content Plan</div>
+              <div class="deliverable-desc">60 ready-to-post captions and hooks, a 3-month content calendar, hashtag strategy targeting Madrid barber culture, and a bilingual posting guide (EN/ES).</div>
+            </div>
+            <div class="deliverable-value">~$1,800 value</div>
+          </div>
+          <div class="deliverable">
+            <div class="deliverable-num">03</div>
+            <div class="deliverable-info">
+              <div class="deliverable-name">Booking & Website Setup</div>
+              <div class="deliverable-desc">Migrated Vagaro setup for Spain, new landing page with bilingual copy, Google Business Profile in Madrid, and Yelp/local directory registrations.</div>
+            </div>
+            <div class="deliverable-value">~$1,500 value</div>
+          </div>
+          <div class="deliverable">
+            <div class="deliverable-num">04</div>
+            <div class="deliverable-info">
+              <div class="deliverable-name">Madrid Market Research Brief</div>
+              <div class="deliverable-desc">Neighbourhood breakdown (Malasaña, Lavapiés, Chamberí), competitor map, pricing benchmarks, and a "who your first clients will be" ICP for the Madrid market.</div>
+            </div>
+            <div class="deliverable-value">~$1,200 value</div>
+          </div>
+          <div class="deliverable">
+            <div class="deliverable-num">05</div>
+            <div class="deliverable-info">
+              <div class="deliverable-name">AI Content Generator (yours forever)</div>
+              <div class="deliverable-desc">A custom tool — like the one in this suite — that writes your Instagram captions, client outreach messages, and promotional posts on demand, in both English and Spanish.</div>
+            </div>
+            <div class="deliverable-value">~$1,800 value</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide slide-4" id="slide-4">
+        <div class="slide-label" style="color:var(--terra-light)">03 — Why Madrid, Why Now</div>
+        <h2>The barbers who win big abroad start building before they land.</h2>
+        <div class="madrid-grid">
+          <div class="madrid-card">
+            <div class="madrid-card-label">The Opportunity</div>
+            <div class="madrid-card-title">Madrid's barbering scene is booming</div>
+            <div class="madrid-card-body">The city has seen a massive wave of barbershop openings — but most are generic. A skilled, English-speaking barber with a strong aesthetic brand and good content presence will stand out immediately, especially in expat-heavy neighbourhoods like Malasaña and La Latina.</div>
+          </div>
+          <div class="madrid-card">
+            <div class="madrid-card-label">The Play</div>
+            <div class="madrid-card-title">Build your Spanish audience now — from Toronto</div>
+            <div class="madrid-card-body">Start posting Madrid-facing content 12 months before arrival. Document your journey. Let Spanish followers watch you prepare to come to them. By the time you land, you'll have followers, DMs, and potentially a waitlist — before you cut a single hair in Spain.</div>
+          </div>
+          <div class="madrid-card">
+            <div class="madrid-card-label">The Risk of Waiting</div>
+            <div class="madrid-card-title">Every month of no content is a missed month of momentum</div>
+            <div class="madrid-card-body">Instagram's algorithm rewards consistency. Barbers who post regularly for 12+ months before a big move arrive with credibility. Those who wait and post after arrival spend 6–12 months building from scratch with zero local traction and zero income cushion.</div>
+          </div>
+          <div class="madrid-card">
+            <div class="madrid-card-label">The Timeline</div>
+            <div class="madrid-card-title">Two years is the perfect runway</div>
+            <div class="madrid-card-body">Year 1: Build brand, content, and online presence targeting Madrid. Year 2: Begin local outreach, connect with Spanish barber community online, line up workspace. Arrival day: Not starting over — arriving ready.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 5 -->
+      <div class="slide slide-5" id="slide-5">
+        <div class="tag" style="color:rgba(255,255,255,0.7)">The Bottom Line</div>
+        <div class="terra-divider"></div>
+        <h2>You don't need luck.<br><em>You need a runway.</em></h2>
+        <div class="deal-box">
+          <p>Everything in this document — the tracker, the Madrid research, the IG audit, the content tools, the space strategies, the playbook — is yours. No strings. Just a neighbour who's watched you build something real and wanted to give something back that actually matters.</p>
+          <div class="deal-terms">
+            <div class="deal-term">$50K tracker built to your numbers</div>
+            <div class="deal-term">Madrid market research done</div>
+            <div class="deal-term">IG audit with specific fixes</div>
+            <div class="deal-term">Live AI content tool — yours forever</div>
+            <div class="deal-term">Legal, tax & banking guide for Spain</div>
+            <div class="deal-term">Revenue strategies for the next 20 months</div>
+          </div>
+        </div>
+        <div class="terra-divider"></div>
+        <div class="tag" style="color:rgba(255,255,255,0.6)">Madrid isn't a maybe. Let's make it inevitable.</div>
+      </div>
+
+    </div>
+
+    <div class="slide-nav">
+      <div class="slide-counter" id="slide-counter">01 / 05</div>
+      <div class="slide-dots">
+        <div class="slide-dot active" onclick="goSlide(1)"></div>
+        <div class="slide-dot" onclick="goSlide(2)"></div>
+        <div class="slide-dot" onclick="goSlide(3)"></div>
+        <div class="slide-dot" onclick="goSlide(4)"></div>
+        <div class="slide-dot" onclick="goSlide(5)"></div>
+      </div>
+      <div class="slide-btns">
+        <button class="slide-btn" id="btn-prev" onclick="changeSlide(-1)" disabled>← Back</button>
+        <button class="slide-btn" id="btn-next" onclick="changeSlide(1)">Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== AI CONTENT GENERATOR ===== -->
+<div id="section-ai" class="section">
+  <div class="ai-wrap">
+    <div class="tool-header">
+      <h2>Tash's Content Generator</h2>
+      <p>A live sample of the AI tool you'd receive — generates Instagram captions, client messages, and promo posts tailored to your brand and Madrid move</p>
+    </div>
+
+    <div class="tool-grid">
+      <div class="field-group">
+        <div class="field-label">Content Type</div>
+        <select class="field-select" id="content-type">
+          <option value="instagram caption">Instagram Caption (Toronto)</option>
+          <option value="madrid teaser post">Madrid Teaser Post (pre-move hype)</option>
+          <option value="new client welcome message">New Client Welcome Message</option>
+          <option value="re-engagement for lapsed client">Re-Engagement (Lapsed Client)</option>
+          <option value="bilingual madrid instagram caption">Bilingual Madrid Caption (EN + ES)</option>
+          <option value="promotional post for a deal">Promotional Post / Limited Offer</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Service to Feature</div>
+        <select class="field-select" id="service-type">
+          <option value="skin fade">Skin Fade</option>
+          <option value="haircut with wash and blow dry">Haircut + Wash & Blow Dry</option>
+          <option value="beard trim and lineup">Beard Trim & Lineup</option>
+          <option value="facial grooming with hot towel">Facial Grooming + Hot Towel</option>
+          <option value="scissor cut">Scissor Cut</option>
+          <option value="general barbershop vibe / brand">General Vibe / Brand Story</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Tone</div>
+        <select class="field-select" id="content-tone">
+          <option value="warm and confident">Warm & Confident</option>
+          <option value="bold and hype">Bold & Hype</option>
+          <option value="soft and personal">Soft & Personal</option>
+          <option value="professional and clean">Professional & Clean</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <div class="field-label">Include CTA?</div>
+        <select class="field-select" id="include-cta">
+          <option value="yes - link in bio to book">Yes — link in bio to book</option>
+          <option value="yes - DM to book">Yes — DM to book</option>
+          <option value="no cta needed">No CTA</option>
+        </select>
+      </div>
+      <div class="field-group full">
+        <div class="field-label">Any extra details to include (optional)</div>
+        <textarea class="field-textarea" id="extra" placeholder="e.g. It's a Friday, promoting weekend availability. Or: referencing the Madrid move as part of the caption story..."></textarea>
+      </div>
+    </div>
+
+    <button class="generate-btn" id="gen-btn" onclick="generate()">Generate Content</button>
+
+    <div class="output-box" id="output-box">
+      <div class="output-label" id="output-label">Generated Content</div>
+      <div class="output-content" id="output-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MADRID LAUNCH KIT ===== -->
+<div id="section-campaign" class="section">
+  <div class="campaign-wrap">
+    <div class="campaign-header">
+      <h2>Madrid Launch Kit</h2>
+      <p>Done-for-you assets across every stage of the launch — samples of what you'd receive</p>
+    </div>
+
+    <div class="campaign-tabs">
+      <button class="ctab active" onclick="showTab('brand', this)">Brand & Positioning</button>
+      <button class="ctab" onclick="showTab('content', this)">Content Strategy</button>
+      <button class="ctab" onclick="showTab('local', this)">Local Market</button>
+      <button class="ctab" onclick="showTab('online', this)">Online Setup</button>
+    </div>
+
+    <div class="ctab-content active" id="tab-brand">
+      <div class="asset-grid">
+        <div class="asset-card">
+          <div class="asset-type">Brand Positioning</div>
+          <div class="asset-tag">Identity</div>
+          <div class="asset-title">From "Tash's Barbershop" to "Tash — The Barber"</div>
+          <div class="asset-body">Toronto: local shop brand with strong word-of-mouth.<br><br>Madrid: personal brand. You are the product. The name "Tash" travels better internationally than "Tash's Barbershop." Positioning you as an international barber who chose Madrid — not a struggling immigrant starting over — changes how you're received from day one.<br><br><em>Recommended: teopiia.barber on IG (already yours) → lean into the personal brand angle hard.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Visual Identity</div>
+          <div class="asset-tag">Design Brief</div>
+          <div class="asset-title">Aesthetic Direction: Warm Minimalism</div>
+          <div class="asset-body"><strong>Palette:</strong> Terracotta, warm white, ink black. Feels Mediterranean — not cold.<br><br><strong>Typography:</strong> Clean serif display font + modern sans. Elevated but approachable.<br><br><strong>Mood:</strong> "The barber who actually listens, in a city that moves fast." Intimate. Skilled. A little editorial.<br><br><strong>Instagram grid:</strong> Alternating close-up work shots + lifestyle/behind-the-scenes. No blue tones. All warmth.</div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Brand Voice</div>
+          <div class="asset-tag">Messaging</div>
+          <div class="asset-title">How Tash Sounds in Spain</div>
+          <div class="asset-body"><strong>English posts:</strong> Confident, warm, and personal. First-person. Story-driven. Talks about craft, not just cuts.<br><br><strong>Spanish posts:</strong> Simple, direct, and friendly. Don't over-translate — lean on simple, correct Spanish and let the work speak. "Tu corte, tu estilo." is more powerful than an over-translated paragraph.<br><br><em>Never: salesy, desperate, "book now!!". Always: inviting, craft-proud, community-curious.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Niche Positioning</div>
+          <div class="asset-tag">Strategy</div>
+          <div class="asset-title">The Expat Barber Niche — A Superpower</div>
+          <div class="asset-body">Madrid has a large English-speaking expat community (UK, USA, Canada, Australia) that genuinely struggles to find barbers who understand their hair texture and communication style.<br><br>Being the English-friendly barber who also speaks enough Spanish to make locals comfortable is a niche virtually no barber in Madrid currently owns.<br><br><em>Target: expats first (easy wins), locals second (long-term). Build community, not just clients.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctab-content" id="tab-content">
+      <div class="asset-grid">
+        <div class="asset-card">
+          <div class="asset-type">12-Month Content Arc</div>
+          <div class="asset-tag">Strategy</div>
+          <div class="asset-title">The "Journey to Madrid" Content Series</div>
+          <div class="asset-body"><strong>Months 1–4:</strong> "Still here in Toronto, but my heart is already in Madrid." Shareable work shots + subtle hints at the move. Build curiosity.<br><br><strong>Months 5–8:</strong> Announce the move publicly. Behind-the-scenes of planning. Spanish language learning posts. Engagement spikes.<br><br><strong>Months 9–12:</strong> Countdown content. "Madrid, I'm coming." Bilingual posts. Pre-arrival waitlist open.<br><br><em>By arrival day: 6–12 months of Madrid-facing followers ready to book.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Sample Caption — Pre-Move</div>
+          <div class="asset-tag">Ready to Post</div>
+          <div class="asset-title">"Something's Changing"</div>
+          <div class="asset-body">Sometimes the next chapter starts before you're ready for it. ✂️<br><br>I've been building this chair, this craft, this little corner of Toronto for years. And I'm grateful — genuinely.<br><br>But there's a city calling me. And I'm starting to listen.<br><br>More soon. For now: book while you can. ↗️<br><br>#TashTheBarber #TorontoBarber #ComingSoon #MadridBound</div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Sample Caption — Bilingual</div>
+          <div class="asset-tag">Ready to Post</div>
+          <div class="asset-title">Madrid Introduction Post</div>
+          <div class="asset-body">Toronto made me the barber I am. Madrid is where I'm going next. 🇪🇸<br><br>Canadian barber. 8+ years of craft. Moving to Madrid in [month]. Building something new — and I'd love for you to follow along.<br><br>—<br><br>Barbero canadiense. Más de 8 años de experiencia. Próximamente en Madrid. Si buscas un corte con dedicación real, te quiero en mi lista de espera.<br><br>DM / Link in bio 🔗<br><br>#BarberaMadrid #MadridBarber #TashBarber #CortesMadrid</div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Hashtag Strategy</div>
+          <div class="asset-tag">Growth</div>
+          <div class="asset-title">Madrid Barber Hashtag Clusters</div>
+          <div class="asset-body"><strong>High volume (reach):</strong> #BarberaMadrid #CortesMadrid #BarberoMadrid #MadridStyle<br><br><strong>Mid volume (engagement):</strong> #BarbershopMadrid #SkinfadeMadrid #MadridGrooming #FadeMadrid<br><br><strong>Niche (community):</strong> #ExpatMadrid #MadridExpat #InternationalBarber #CanadianInMadrid<br><br><strong>Personal brand:</strong> #TashTheBarber #TeopiiaBarber<br><br><em>Use 8–12 per post. Rotate clusters. Never repeat exact same set twice.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctab-content" id="tab-local">
+      <div class="asset-grid">
+        <div class="asset-card">
+          <div class="asset-type">Neighbourhood Guide</div>
+          <div class="asset-tag">Market Research</div>
+          <div class="asset-title">Where to Set Up in Madrid</div>
+          <div class="asset-body"><strong>Malasaña:</strong> The creative, hip quarter. Heavy expat presence, young professionals, strong Instagram culture. Best for brand-building and the English-speaking niche. Rents higher but clientele matches your brand.<br><br><strong>Lavapiés:</strong> Multicultural, artistic, community-driven. Lower rent. Less predictable but loyal once you're in.<br><br><strong>Chamberí / Almagro:</strong> Established professionals. Older, higher-income clientele. Slower to trust but higher spend per visit.<br><br><em>Recommendation: Start in Malasaña. It's the Kensington Market of Madrid.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Competitor Landscape</div>
+          <div class="asset-tag">Research</div>
+          <div class="asset-title">What You're Walking Into</div>
+          <div class="asset-body">Madrid's barbershop scene is active but cluttered at the low end and sparse at the premium personal-brand end.<br><br><strong>Gaps in the market:</strong> Very few barbers position themselves with editorial aesthetics and a story. Most compete on price. The "craft barber with a following" niche is wide open.<br><br><strong>Your edge:</strong> 8+ years of documented work, English fluency, an existing Instagram presence, and the novelty of being an international barber with a clear journey narrative.<br><br><em>Don't compete on price. Compete on experience and story.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Pricing Benchmark</div>
+          <div class="asset-tag">Business</div>
+          <div class="asset-title">What to Charge in Madrid</div>
+          <div class="asset-body"><strong>Entry-level barbershop:</strong> €12–18 per cut.<br><strong>Mid-tier established barber:</strong> €25–35 per cut.<br><strong>Premium / appointment-only:</strong> €40–60+<br><br>You should launch at €35–45 and never go lower. Coming in cheap signals low quality in a new market.<br><br><em>Strategy: Launch with a "founding client" rate of €30 for first 20 bookings — then move to standard pricing. Creates urgency and loyalty without devaluing your work long-term.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Community Play</div>
+          <div class="asset-tag">Growth</div>
+          <div class="asset-title">How to Build Fast After Landing</div>
+          <div class="asset-body"><strong>Step 1:</strong> Find Madrid barber Facebook groups and expat community groups (Madrid Expats, Internations Madrid). Introduce yourself — not to sell, to connect.<br><br><strong>Step 2:</strong> Offer 5 free cuts to local micro-influencers (5K–30K followers in Madrid lifestyle). Document every one. Ask for an IG story, not a post.<br><br><strong>Step 3:</strong> Collaborate with a local coffee shop or studio for a pop-up. Cross-audience, zero ad spend.<br><br><em>First month goal: 20 bookings. Not from ads — from community.</em></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ctab-content" id="tab-online">
+      <div class="asset-grid">
+        <div class="asset-card">
+          <div class="asset-type">Booking Setup</div>
+          <div class="asset-tag">Tech</div>
+          <div class="asset-title">Vagaro → Madrid-Ready</div>
+          <div class="asset-body">Vagaro works in Spain. Here's what needs updating:<br><br><strong>Currency:</strong> Switch billing to EUR. Update all service prices in Euros.<br><strong>Timezone:</strong> Set to CET (Central European Time).<strong><br>Service menu:</strong> Translate all service names to Spanish (+ keep English version).<br><strong>Booking page URL:</strong> Update to teopiia-barber-madrid or similar.<br><strong>Confirmation emails:</strong> Bilingual template. Warm, personal, not automated-sounding.<br><br><em>All of this gets done and handed to you — no Vagaro knowledge required.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Website</div>
+          <div class="asset-tag">Digital Presence</div>
+          <div class="asset-title">New Landing Page for Madrid</div>
+          <div class="asset-body">Your current Wix site is Toronto-facing. You need a Madrid version.<br><br><strong>Structure:</strong> Hero (who you are + where you are) → Services + prices in EUR → Gallery of best work → "Book Your First Cut" CTA → About (your story, the Toronto-to-Madrid journey).<br><br><strong>Bilingual:</strong> EN/ES toggle. Simple, not overdone.<br><br><strong>SEO targets:</strong> "Barber Malasaña," "English-speaking barber Madrid," "Barbero Madrid expats."<br><br><em>Fully built and handed over — you just update the photos.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Google Business</div>
+          <div class="asset-tag">Local SEO</div>
+          <div class="asset-title">Google Profile — Set Up Before You Arrive</div>
+          <div class="asset-body">You can create and verify a Google Business Profile in Madrid before you physically move — using a service address or a temporary address.<br><br>This means you start accumulating Google presence, show up in "barber near me" searches, and can collect early reviews from Toronto clients who write glowing endorsements while you're still here.<br><br><em>5 early Google reviews from loyal Toronto clients can make you look established before you cut a single hair in Madrid.</em></div>
+        </div>
+        <div class="asset-card">
+          <div class="asset-type">Pre-Arrival Waitlist</div>
+          <div class="asset-tag">Revenue</div>
+          <div class="asset-title">The "I'm Coming" Waitlist</div>
+          <div class="asset-body">Launch a simple waitlist 3–4 months before your Madrid arrival date. Collect emails via a landing page or Instagram link.<br><br><strong>Offer:</strong> "Join the waitlist and get first access to booking when I arrive — plus a founding client rate."<br><br><strong>Goal:</strong> 30–50 emails before landing. Convert 40% into first-month bookings.<br><br><em>This is how you arrive with income instead of silence. The waitlist is built as part of the package I'll deliver.</em></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== PLAYBOOK ===== -->
+<div id="section-playbook" class="section">
+  <div class="playbook-wrap">
+    <div class="playbook-header">
+      <h2>The 2-Year Madrid Prep Playbook</h2>
+      <p>What happens when, in what order — with checkboxes for every step</p>
+    </div>
+
+    <div class="phase-list">
+
+      <div class="phase open" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num">01</div>
+          <div class="phase-info">
+            <div class="phase-title">Foundation — Now → Month 2</div>
+            <div class="phase-meta">Immediate · Brand & Setup · Non-Negotiable</div>
+          </div>
+          <div class="phase-arrow">▶</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-inner">
+            <div class="step-list">
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Finalize brand direction.</strong> Decide: personal brand ("Tash" / "Teopiia") vs. shop brand ("Tash's Barbershop"). The personal brand wins internationally — make the call now so all content goes in one direction.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Madrid brand identity delivered.</strong> Logo, colour palette, Instagram aesthetic guide, typography, and voice guide — all handed over within 30 days of agreement.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Instagram audit and refresh.</strong> Update @teopiia_barber bio to hint at the Madrid move. New highlight covers. Pinned post introducing the "journey." This costs nothing and signals momentum immediately.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Content calendar for months 1–3 delivered.</strong> 30 ready-to-post captions with hashtag sets, scheduled to post 4x/week. You just add photos.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Market research brief delivered.</strong> Neighbourhood breakdown, competitor analysis, pricing benchmark, and ideal client profile for the Madrid market — all in one readable document.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num">02</div>
+          <div class="phase-info">
+            <div class="phase-title">Momentum — Month 3 → Month 9</div>
+            <div class="phase-meta">Consistent Posting · Community Building · Audience Growth</div>
+          </div>
+          <div class="phase-arrow">▶</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-inner">
+            <div class="step-list">
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Post 4x/week using the content calendar.</strong> Work shots on Tuesday/Friday, lifestyle/vibe on Wednesday, behind-the-scenes on Sunday. Consistency here is more important than perfection. Show up every week.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Use the AI content generator.</strong> Every caption that doesn't feel natural to write, run it through the tool. Takes 30 seconds and keeps your voice consistent even when you're not feeling creative.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Start engaging with Madrid barber accounts.</strong> Follow, comment, DM. Not to hustle — to genuinely connect. The barber community in Madrid is tight-knit. Being known before you arrive matters more than any ad.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Announce the move publicly (Month 5–6 recommended).</strong> Big, emotional post. Story-first. Use the "Something's Changing" caption as a base. This is the post that goes viral within your network. Let it breathe — no promotional CTA, just the announcement.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Begin basic Spanish language learning content.</strong> "Learning Spanish for the move" posts are incredibly relatable and shareable. Your audience roots for you when they see the work you're putting in. Even one post a month on this builds a lot of goodwill.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num">03</div>
+          <div class="phase-info">
+            <div class="phase-title">Pre-Launch — Month 10 → Month 22</div>
+            <div class="phase-meta">Waitlist · Online Setup · Madrid Presence Built Remotely</div>
+          </div>
+          <div class="phase-arrow">▶</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-inner">
+            <div class="step-list">
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Madrid website goes live.</strong> Bilingual landing page, Madrid-specific SEO, booking link, gallery. Fully built and handed to you. You update photos as your work evolves.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Google Business Profile created for Madrid.</strong> Verification done, profile optimized, category set to "Barber Shop," first photos uploaded, hours set for your anticipated launch schedule.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Ask Toronto clients for Google reviews — worded for Madrid.</strong> A review that says "Tash is hands down the best barber I've had — whoever gets her in Madrid is lucky" lands differently than a generic 5-star. Brief your best clients on what to write.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Open the waitlist (4 months before arrival).</strong> Instagram link + landing page. "Founding client rate for first 20 bookings." Goal: 30–50 sign-ups. Follow up with everyone personally before you land.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Secure workspace.</strong> Chair rental vs. own chair vs. collaboration with existing barbershop. The research brief includes a short-list of contact strategies for each neighbourhood. Start outreach 6 months before arrival.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="phase" onclick="togglePhase(this)">
+        <div class="phase-header">
+          <div class="phase-num">04</div>
+          <div class="phase-info">
+            <div class="phase-title">Arrival & First 90 Days in Madrid</div>
+            <div class="phase-meta">Convert waitlist · Build community · First reviews</div>
+          </div>
+          <div class="phase-arrow">▶</div>
+        </div>
+        <div class="phase-body">
+          <div class="phase-inner">
+            <div class="step-list">
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Convert waitlist to bookings within 48 hours of arrival.</strong> Personal DM to every sign-up. "I'm here. Let's book your first cut." This should fill your first 2 weeks before a single walk-in.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Document everything.</strong> First day in the chair in Madrid. First client. First Spanish conversation. This content is gold and will get 5–10× your normal engagement. People love a beginning.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Offer 5 free cuts to local micro-influencers.</strong> Target: Madrid-based lifestyle, food, or fashion accounts with 5K–50K followers. Ask for an IG story only — no post required. Easy yes for them, big visibility for you.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Ask for Google reviews after every appointment in month 1.</strong> 15 reviews in the first month sets a foundation that takes competitors years to build. Make it easy: send the Google link directly in the post-appointment message.</div></div>
+              <div class="step"><div class="step-check" onclick="c(event,this)"></div><div class="step-text"><strong>Raise prices after month 2.</strong> You launched at the founding client rate. Now move to standard pricing with confidence. Loyal early clients appreciate the heads-up and respect the professionalism.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== $50K TRACKER ===== -->
+<div id="section-tracker" class="section">
+  <div class="tracker-wrap">
+
+    <div class="tracker-header">
+      <h2>Tash's $50K Madrid Fund</h2>
+      <p>Goal: <strong>$50,000 saved by December 31, 2026</strong> — adjust the numbers to see exactly what it takes</p>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="goal-card">
+      <div class="goal-top">
+        <div>
+          <div class="goal-label">Current Savings</div>
+          <div class="goal-amount" id="display-saved">$0</div>
+        </div>
+        <div style="text-align:right">
+          <div class="goal-label">Goal</div>
+          <div class="goal-amount" style="color:var(--terracotta)">$50,000</div>
+        </div>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        <div class="progress-label" id="progress-label">0% there</div>
+      </div>
+      <div class="remaining-note" id="remaining-note">$50,000 remaining · <span id="days-left"></span> days until Dec 31, 2026</div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls-grid">
+      <div class="control-card">
+        <div class="control-label">Money already saved ($)</div>
+        <input class="control-input" id="already-saved" type="number" value="0" min="0" oninput="recalc()">
+      </div>
+      <div class="control-card">
+        <div class="control-label">Avg cuts per day</div>
+        <input class="control-input" id="cuts-per-day" type="number" value="6" min="1" max="20" oninput="recalc()">
+      </div>
+      <div class="control-card">
+        <div class="control-label">Working days per week</div>
+        <input class="control-input" id="days-per-week" type="number" value="5" min="1" max="7" oninput="recalc()">
+      </div>
+      <div class="control-card">
+        <div class="control-label">Avg price per service ($)</div>
+        <input class="control-input" id="avg-price" type="number" value="55" min="1" oninput="recalc()">
+      </div>
+      <div class="control-card">
+        <div class="control-label">Monthly expenses ($)</div>
+        <input class="control-input" id="monthly-expenses" type="number" value="2800" min="0" oninput="recalc()">
+      </div>
+      <div class="control-card">
+        <div class="control-label">Other monthly income ($)</div>
+        <input class="control-input" id="other-income" type="number" value="0" min="0" oninput="recalc()">
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-label">Weekly revenue</div>
+        <div class="result-value" id="weekly-rev">—</div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">Monthly revenue</div>
+        <div class="result-value" id="monthly-rev">—</div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">Monthly savings</div>
+        <div class="result-value" id="monthly-save">—</div>
+      </div>
+      <div class="result-card highlight-card">
+        <div class="result-label">On track to hit $50K?</div>
+        <div class="result-value" id="on-track">—</div>
+      </div>
+    </div>
+
+    <!-- Monthly breakdown table -->
+    <div class="breakdown-section">
+      <div class="breakdown-title">Month-by-Month Savings Projection</div>
+      <div class="breakdown-table-wrap">
+        <table class="breakdown-table" id="breakdown-table">
+          <thead>
+            <tr>
+              <th>Month</th>
+              <th>Revenue</th>
+              <th>Saved this month</th>
+              <th>Running total</th>
+              <th>vs. Goal</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Price raise impact -->
+    <div class="rent-impact-card" style="background:var(--warm-white);border:1px solid var(--border);margin-bottom:1.5rem;">
+      <div class="rent-impact-title" style="color:var(--charcoal)">📈 What if you raised your prices?</div>
+      <div class="rent-impact-body" style="color:var(--muted)">
+        You run a private room in a professional salon — not a chair rental. Your pricing should reflect that. Even a small increase goes directly into the Madrid fund.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;margin-top:1.2rem;flex-wrap:wrap">
+        <div>
+          <div class="control-label" style="margin-bottom:4px">Current avg price ($)</div>
+          <input class="control-input" id="current-price" type="number" value="55" min="1" oninput="recalc()" style="background:white">
+        </div>
+        <div>
+          <div class="control-label" style="margin-bottom:4px">New avg price ($)</div>
+          <input class="control-input" id="new-price" type="number" value="65" min="1" oninput="recalc()" style="background:white">
+        </div>
+        <div style="display:flex;flex-direction:column;justify-content:flex-end">
+          <div class="control-label" style="margin-bottom:4px">Extra saved by Dec 2026</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--terracotta);font-weight:400;padding:0.6rem 0" id="price-raise-impact">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rent impact -->
+    <div class="rent-impact-card">
+      <div class="rent-impact-title">🏠 Planning for your own rental in Madrid</div>
+      <div class="rent-impact-body">
+        When you move to Madrid, you'll be a tenant yourself — first and last month's deposit is standard in Spain. Enter your expected monthly rent to see how much of the $50K to ring-fence just for move-in, and what's left for runway.
+      </div>
+      <div style="display:flex;gap:1rem;align-items:center;margin-top:1rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px">
+          <div class="control-label" style="margin-bottom:4px">Expected Madrid rent (€/month)</div>
+          <input class="control-input" id="rent-amount" type="number" value="1200" min="0" oninput="recalc()">
+        </div>
+        <div class="rent-result-box" id="rent-result-box">
+          <div class="rent-result-label">Move-in reserve needed (CAD equiv.)</div>
+          <div class="rent-result-value" id="rent-result-value">—</div>
+        </div>
+        <div class="rent-result-box" style="background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.3)">
+          <div class="rent-result-label">Remaining for living runway</div>
+          <div class="rent-result-value" id="runway-after-rent" style="color:var(--terra-light)">—</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== PERSONAL LETTER ===== -->
+<div id="section-letter" class="section active">
+  <div class="letter-wrap">
+    <div class="letter-paper">
+      <div class="letter-header-line">
+        <span class="letter-from">From Clint — your tenant</span>
+        <span class="letter-date" id="letter-date"></span>
+      </div>
+      <div class="letter-salutation">Tash,</div>
+      <div class="letter-body">
+        <p>I want to start by saying something I probably should have said more clearly a while ago: thank you. You've been more than a landlord to me. You've been patient, understanding, and genuinely human — and that's rarer than people realise. It means a lot, and I don't take it lightly.</p>
+
+        <p>I know you're deep in a big season right now. Trying to sell by August, figuring out what comes next, and carrying a $50K goal in the back of your mind on every single booking. I see the weight of that — running your own space, building toward something real, doing it on a timeline that doesn't leave much room for error — and I have nothing but respect for how you carry it.</p>
+
+        <p>I've been thinking about what I could actually do that would matter. Not a card, not a gesture. Something real. And I kept landing in the same place: Madrid is the thing. Getting you there well — not just getting you there — is what would actually make a difference.</p>
+
+        <p>So I spent some time building this. It's not a template or a generic guide. I looked at your actual Instagram, researched the Madrid barber market specifically, built a savings tracker around your real numbers, mapped out what your space could earn you before you go, and then built you a live AI tool that writes your content on demand — in English and Spanish — forever, for free.</p>
+
+        <p>There's a legal and tax guide for Spain as an autónomo. There's a currency conversion strategy so you don't lose money moving your savings across. There's an honest audit of your Instagram with specific fixes. There's a playbook that takes you from now to your first 90 days on the ground in Madrid with clients already waiting.</p>
+
+        <p>Everything here is yours. No strings, no ask. You've given me a lot of grace over the time I've been here, and this is just me trying to give something back that's actually worth something.</p>
+
+        <p>I hope it helps. I hope Madrid is everything you've been building toward. And I hope when you're cutting hair in Malasaña with a full book and the afternoon sun coming through the window, some small part of this made that moment arrive a little sooner.</p>
+      </div>
+      <div class="letter-sign">With real gratitude,<br><span class="letter-sign-name">Clint</span></div>
+
+      <div class="letter-ps">
+        <strong>P.S.</strong> — Start with the $50K Tracker and plug in your actual numbers. Then check the "Your Space" tab — there's a strategy in there that could change your timeline significantly, and it involves something most barbers never think about.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INSTAGRAM AUDIT ===== -->
+<div id="section-audit" class="section">
+  <div class="audit-wrap">
+    <div class="audit-header">
+      <h2>@teopiia_barber — Honest Instagram Audit</h2>
+      <p>Specific observations from your actual account — what's working, what isn't, and exactly what to fix</p>
+    </div>
+
+    <div class="audit-score-row">
+      <div class="score-card">
+        <div class="score-label">Profile Strength</div>
+        <div class="score-ring" style="--pct:68%">
+          <div class="score-num">68<span style="font-size:1rem">/100</span></div>
+        </div>
+        <div class="score-note">Good bones. Inconsistency holding it back.</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Content Consistency</div>
+        <div class="score-ring" style="--pct:45%">
+          <div class="score-num">45<span style="font-size:1rem">/100</span></div>
+        </div>
+        <div class="score-note">Biggest gap. Fixable fast.</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Brand Clarity</div>
+        <div class="score-ring" style="--pct:72%">
+          <div class="score-num">72<span style="font-size:1rem">/100</span></div>
+        </div>
+        <div class="score-note">Your work speaks clearly. Voice less so.</div>
+      </div>
+      <div class="score-card">
+        <div class="score-label">Madrid-Readiness</div>
+        <div class="score-ring" style="--pct:15%">
+          <div class="score-num">15<span style="font-size:1rem">/100</span></div>
+        </div>
+        <div class="score-note">Nothing yet. Huge upside here.</div>
+      </div>
+    </div>
+
+    <div class="audit-grid">
+      <div class="audit-card audit-good">
+        <div class="audit-card-type">✓ What's Working</div>
+        <div class="audit-items">
+          <div class="audit-item">
+            <div class="audit-item-title">Your work photographs well</div>
+            <div class="audit-item-body">The actual cuts — especially the skin fades and facial grooming shots — are genuinely impressive. Clean lines, good lighting, strong close-ups. This is the hardest part to fake and you don't have to.</div>
+          </div>
+          <div class="audit-item">
+            <div class="audit-item-title">The name "teopiia_barber" travels</div>
+            <div class="audit-item-body">It's distinctive, memorable, and doesn't tie you to Toronto geographically. Unlike "tashs_barbershop_toronto," this handle works in Madrid without a rebrand. Keep it.</div>
+          </div>
+          <div class="audit-item">
+            <div class="audit-item-title">You have a real aesthetic point of view</div>
+            <div class="audit-item-body">There's a warmth and craft-pride in your posts when they're up. You're not posting generic barbershop content — when you do post, it has a soul to it. That's rarer than you think.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="audit-card audit-fix">
+        <div class="audit-card-type">↗ What Needs Work</div>
+        <div class="audit-items">
+          <div class="audit-item">
+            <div class="audit-item-title">Posting gaps are hurting your reach</div>
+            <div class="audit-item-body">Instagram's algorithm treats gaps as disengagement. When you post inconsistently, each new post starts with lower initial reach than if you'd been consistent. The fix isn't posting more — it's posting on a schedule, even if that's only 3x/week.</div>
+          </div>
+          <div class="audit-item">
+            <div class="audit-item-title">Your bio doesn't do enough work</div>
+            <div class="audit-item-body">Right now it describes what you do. It should describe who you are and create a reason to follow. Something like: "Toronto barber. Skin fades, scissor cuts, facial grooming. Madrid-bound 2026. Book ↓" — tells a story and creates curiosity in 12 words.</div>
+          </div>
+          <div class="audit-item">
+            <div class="audit-item-title">No Reels presence</div>
+            <div class="audit-item-body">Static posts reach your existing followers. Reels reach new people. A 15-second before/after timelapse — even shot on iPhone — can get 5–20× the reach of a photo post. You don't need to be a video creator. One Reel a week is enough to change your trajectory.</div>
+          </div>
+          <div class="audit-item">
+            <div class="audit-item-title">Captions don't invite conversation</div>
+            <div class="audit-item-body">Most captions are short or absent. Comments are the algorithm's clearest signal that content is worth spreading. A simple question at the end of every caption ("which side is your preferred fade length?") can double your comment rate with zero extra effort.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="three-fixes">
+      <div class="three-fixes-title">3 Things to Do This Week — Specific, Free, Fast</div>
+      <div class="fixes-list">
+        <div class="fix-item">
+          <div class="fix-num">1</div>
+          <div class="fix-content">
+            <div class="fix-title">Rewrite your bio today</div>
+            <div class="fix-body">Open Instagram → Edit Profile → Bio. Replace whatever's there with: <em>"Toronto barber · Skin fades · Scissor cuts · Facial grooming · Madrid-bound 🇪🇸 · Book below ↓"</em> — Add your Vagaro link in the link field if it's not already there. Takes 3 minutes.</div>
+          </div>
+        </div>
+        <div class="fix-item">
+          <div class="fix-num">2</div>
+          <div class="fix-content">
+            <div class="fix-title">Film one before/after this week</div>
+            <div class="fix-body">Before your next skin fade: film 5 seconds of the client's hair before. After: film 5 seconds finished. Put them side by side in CapCut (free app), add a trending audio, post as a Reel. Caption: "The transformation 🪒 Book link in bio." Done. That's your first Reel. It will outperform every static post you've made in months.</div>
+          </div>
+        </div>
+        <div class="fix-item">
+          <div class="fix-num">3</div>
+          <div class="fix-content">
+            <div class="fix-title">Post your "Madrid is coming" hint</div>
+            <div class="fix-body">A single, quiet post this week: a great photo of your work + caption: <em>"Still loving every cut. Still grateful for every client. And quietly planning something big. More soon. 🇪🇸"</em> — This costs nothing, takes 5 minutes, and plants a seed. People will comment asking. That engagement tells the algorithm you're worth spreading — right as you start your Madrid content journey.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-box">
+      <div class="pricing-box-title">↑ The Pricing Conversation Nobody's Had With You</div>
+      <div class="pricing-body">
+        <p>Solo barbers in Toronto running their own space — not renting a chair, running a <em>space</em> — almost universally undercharge. Here's what $5 more per cut actually means for your Madrid fund:</p>
+        <div class="pricing-calc-row">
+          <div class="pcalc">
+            <div class="pcalc-label">+$5/cut × 6 cuts/day × 5 days</div>
+            <div class="pcalc-val">+$150/week</div>
+          </div>
+          <div class="pcalc">
+            <div class="pcalc-label">Over 20 months (now → Dec 2026)</div>
+            <div class="pcalc-val">+$4,800</div>
+          </div>
+          <div class="pcalc highlight-pcalc">
+            <div class="pcalc-label">+$10/cut over same period</div>
+            <div class="pcalc-val">+$9,600</div>
+          </div>
+        </div>
+        <p style="margin-top:1rem;font-size:0.8rem;color:var(--muted);font-weight:300">A $10 price increase on premium services (skin fade, facial grooming) is entirely defensible when you own a professional space and have 8+ years of craft. Most clients won't blink. The ones who do were never your long-term clients anyway. Use the $50K Tracker to model exactly what a price bump does to your timeline.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MADRID 101 ===== -->
+<div id="section-madrid101" class="section">
+  <div class="m101-wrap">
+    <div class="m101-header">
+      <h2>Madrid 101 — The Practical Guide</h2>
+      <p>Everything a barber setting up independently actually needs to know before landing in Spain — legal, financial, and on-the-ground</p>
+    </div>
+
+    <div class="m101-tabs">
+      <button class="m101tab active" onclick="showM101('legal', this)">Legal & Tax</button>
+      <button class="m101tab" onclick="showM101('money', this)">Money & Banking</button>
+      <button class="m101tab" onclick="showM101('space', this)">Finding a Space</button>
+      <button class="m101tab" onclick="showM101('life', this)">Cost of Life</button>
+    </div>
+
+    <div class="m101-content active" id="m101-legal">
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="guide-icon">📋</div>
+          <div class="guide-title">Autónomo — Self-Employment Registration</div>
+          <div class="guide-body">In Spain, self-employed workers register as <em>autónomo</em>. This is your equivalent of being incorporated as a sole proprietor in Canada. You'll need this to legally take clients and issue invoices.<br><br><strong>How to register:</strong> Through the Agencia Tributaria (Spanish tax authority) online or at a local office. You'll need your NIE (foreigner's ID number) first — get this before you leave Canada if possible, through the Spanish consulate.<br><br><strong>Cost:</strong> As of 2026, the minimum autónomo social security contribution is approximately €230–€290/month (sliding scale based on income). This is mandatory regardless of earnings in your first year.<br><br><strong>Flat-rate deal:</strong> New autónomos get a reduced rate of €80/month for the first 12 months. This is significant — budget around it.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">🪪</div>
+          <div class="guide-title">NIE — Your Most Important Document</div>
+          <div class="guide-body">The Número de Identificación de Extranjero (NIE) is your Spanish ID for foreigners. You cannot open a bank account, sign a lease, or register as autónomo without it.<br><br><strong>Get it before you leave Canada:</strong> Apply at the Spanish consulate in Toronto. Bring passport, two passport photos, and the completed EX-15 form. Appointments are limited — book as early as possible, ideally 6–9 months before your move.<br><br><strong>In Spain:</strong> If you didn't get it before arrival, apply at a Comisaría de Policía (police station) or Oficina de Extranjería. Expect waits of 1–3 months for an appointment in Madrid.<br><br><strong>Bottom line:</strong> Treat NIE like a passport. Start the process now — even two years out.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">💼</div>
+          <div class="guide-title">Canadian Visa Route for Spain</div>
+          <div class="guide-body">As a Canadian citizen, you can stay in Spain visa-free for 90 days. For longer stays to work, you need a visa.<br><br><strong>Best option for you — Non-Lucrative Visa + Autónomo:</strong> Arrive on a non-lucrative visa (shows you have savings), then convert to autónomo status after establishing residency. Many expat barbers use this path.<br><br><strong>Digital Nomad Visa:</strong> Spain launched a Digital Nomad Visa in 2023. As a self-employed barber, you may qualify if you can demonstrate you serve clients remotely (content creation, online consulting) alongside in-person services.<br><br><strong>Get an immigration lawyer:</strong> Budget €500–€1,000 for a consultation with a Spanish immigration attorney. Worth every euro. Many work remotely with Canadian clients preparing to move.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">💶</div>
+          <div class="guide-title">Spanish Tax as a Barber</div>
+          <div class="guide-body">As an autónomo in Spain, you'll file quarterly tax returns (IVA — VAT — and IRPF — income tax).<br><br><strong>IVA (VAT):</strong> Hairdressing and barbering services are taxed at 10% IVA (reduced rate, not the full 21%). You collect this from clients and remit quarterly.<br><br><strong>IRPF (Income tax withholding):</strong> You apply a 15% withholding on your invoices to professional clients (like salons). For direct client bookings, you declare quarterly.<br><br><strong>Practical tip:</strong> Use a gestora — a Spanish accountant/admin specialist — for about €60–€100/month. They handle all quarterly filings so you focus on barbering, not paperwork. Non-negotiable for a first-year foreign autónomo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="m101-content" id="m101-money">
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="guide-icon">🏦</div>
+          <div class="guide-title">Banking in Spain</div>
+          <div class="guide-body">You'll need a Spanish bank account to receive payments, pay autónomo contributions, and sign leases.<br><br><strong>Best options for new arrivals:</strong><br>— <strong>BBVA:</strong> English-speaking support, good app, easy for foreigners to open.<br>— <strong>Sabadell:</strong> Known for being expat-friendly, English service available.<br>— <strong>N26 or Wise:</strong> Open now (before you leave Canada) for fee-free EUR transactions and as a bridge account. Wise is especially good for converting CAD → EUR without bank fees.<br><br><strong>Open Wise now:</strong> Seriously. Start using it to convert savings into EUR. Exchange rates have shifted significantly in the past two years and locking in gradually de-risks your fund.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">💱</div>
+          <div class="guide-title">Converting Your $50K to EUR</div>
+          <div class="guide-body">As of mid-2026, CAD/EUR is approximately 0.67–0.70. That means your $50K CAD ≈ €33,500–€35,000 EUR.<br><br><strong>Don't convert all at once:</strong> Exchange rates move. Converting $5K–$8K CAD every couple of months (called "dollar-cost averaging" for currency) smooths out rate volatility.<br><br><strong>Use Wise, not your bank:</strong> Banks charge 2–3% in hidden exchange fees. Wise charges ~0.4%. On $50K, that's the difference between paying ~$1,200 in fees vs. ~$200. The savings is real.<br><br><strong>Set a rate alert:</strong> If CAD strengthens above 0.72 EUR, that's a good time to convert a larger chunk. Wise and Google Finance both have rate alerts.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">💳</div>
+          <div class="guide-title">Accepting Payments as a Barber in Madrid</div>
+          <div class="guide-body">Cash is still common in Madrid barbershops but declining fast, especially in expat-heavy neighbourhoods.<br><br><strong>Best payment setup:</strong><br>— <strong>Sumup:</strong> Popular card reader in Spain, low fees (~1.69%), works with your Spanish bank account.<br>— <strong>Zettle (PayPal):</strong> Also widely used, good app.<br>— <strong>Bizum:</strong> Spain's instant bank transfer app (like Interac e-transfer). Once you have a Spanish bank account, virtually every Spanish client uses this. Set it up day one.<br><br><strong>For bookings:</strong> Vagaro works in Spain — update currency to EUR, timezone to CET, and you're set. Keep using it. Don't switch booking systems in your first year.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">🏥</div>
+          <div class="guide-title">Healthcare as an Autónomo</div>
+          <div class="guide-body">One of the biggest anxieties for Canadians moving from a public healthcare country: what happens if you get sick?<br><br><strong>Good news:</strong> Once you're registered as autónomo and paying social security contributions, you have access to Spain's public healthcare system (Sistema Nacional de Salud) — which is genuinely excellent.<br><br><strong>Coverage timeline:</strong> Social security contributions give you access to public health within a few months of registration. Dental is mostly private.<br><br><strong>Bridge insurance:</strong> Get private travel/health insurance for your first 3–6 months in Spain before autónomo coverage kicks in. Budget €80–€150/month. Allianz Care and AXA are common choices for Canadian expats in Spain.<br><br><strong>OHIP:</strong> You lose OHIP coverage after 212 days outside Ontario. Plan accordingly.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="m101-content" id="m101-space">
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="guide-icon">📍</div>
+          <div class="guide-title">Best Neighbourhoods for a Barber Space</div>
+          <div class="guide-body"><strong>Malasaña</strong> — Creative, young, heavy expat presence. Barbershops here skew premium. Rent for a small commercial space: €800–€1,400/month. Your ideal first location.<br><br><strong>Lavapiés</strong> — Multicultural, artistic, loyal communities. Lower commercial rents (€500–€900/month). Less predictable but strong word-of-mouth once established.<br><br><strong>Chamberí / Almagro</strong> — Established professionals, higher incomes. Commercial rents €1,200–€2,000/month. Harder to break into but highest spend-per-client.<br><br><strong>Chueca</strong> — LGBTQ+ hub, fashion-forward, strong grooming culture. High foot traffic. Rents similar to Malasaña. Strong potential for your aesthetic.<br><br><strong>Recommendation:</strong> Start in Malasaña or Chueca. Go where your ideal client already lives.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">🤝</div>
+          <div class="guide-title">Chair Rental vs. Your Own Space — Year One</div>
+          <div class="guide-body">You currently run your own space in Toronto. In Madrid year one, the math changes.<br><br><strong>Chair rental first:</strong> In Madrid, renting a chair (silla en alquiler) from an existing barbershop or salon typically costs €400–€800/month. You keep all your revenue above that. Zero fit-out cost, no long lease commitment.<br><br><strong>Your own space later:</strong> Commercial leases in Madrid typically require a 2-month deposit + first month upfront. Fit-out costs for even a modest barbershop: €5,000–€15,000.<br><br><strong>Strategy:</strong> Year 1 — rent a chair in Malasaña, build clientele. Year 2 — if revenue supports it, negotiate your own space or a revenue-share arrangement with the host salon.<br><br>Running your own space in Toronto is a skill that transfers. Use it as leverage, not a starting requirement.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">🔍</div>
+          <div class="guide-title">How to Find a Chair to Rent Remotely</div>
+          <div class="guide-body">You can start this process before you leave Canada — from Toronto.<br><br><strong>Instagram:</strong> Search #BarberaMadrid, #BarberoMadrid, #MalasañaBarber. DM barbershops directly introducing yourself. Many owners are open to chair rental arrangements with skilled international barbers — it's free money for an empty chair.<br><br><strong>Facebook Groups:</strong> "Expats in Madrid," "Vivir en Madrid," "Autónomos en España" — post your intro (in English is fine, add a Spanish paragraph).<br><br><strong>Idealista / Fotocasa:</strong> Spain's main real estate sites. Filter for "local comercial" in your target neighbourhood to see what's available and price ranges.<br><br><strong>The ask:</strong> "I'm a skilled barber moving from Canada in [month]. I have 8+ years experience, my own following, and I'm looking for a chair rental arrangement in [neighbourhood]. Happy to share portfolio and references." Straightforward wins.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">📜</div>
+          <div class="guide-title">Spanish Commercial Lease Basics</div>
+          <div class="guide-body">If you go straight to your own space, know what you're signing.<br><br><strong>Minimum term:</strong> Spanish commercial leases (Ley de Arrendamientos Urbanos) typically have a minimum 5-year term for the tenant's protection — but you can negotiate shorter terms with the landlord's agreement. Aim for 1-year renewable.<br><br><strong>Fianza (deposit):</strong> Typically 2 months' rent, held in escrow by the regional government (in Madrid, the IVIMA). This is legally required.<br><br><strong>IBI and community fees:</strong> Check who pays property tax and community of owners fees — sometimes passed to tenants, sometimes not. Always ask.<br><br><strong>Licencia de apertura:</strong> You'll need an opening licence (activity licence) from the Ayuntamiento de Madrid to legally operate a barbershop. Budget €300–€800 and 4–8 weeks. A gestoría can handle this for you.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="m101-content" id="m101-life">
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="guide-icon">🏠</div>
+          <div class="guide-title">Cost of Living in Madrid (2026)</div>
+          <div class="guide-body">Madrid is significantly more affordable than Toronto — but costs have risen sharply since 2022.<br><br><strong>Rent (apartment, 1–2BR):</strong><br>— Malasaña/Chueca: €1,200–€1,800/month<br>— Chamberí: €1,100–€1,600/month<br>— Lavapiés/Carabanchel: €800–€1,200/month<br><br><strong>Groceries:</strong> €250–€400/month for two (Mercadona is your Loblaws equivalent, ~40% cheaper)<br><strong>Eating out:</strong> €10–€18 for a full menú del día (3-course lunch). Dinner €20–€35/person at a nice spot.<br><strong>Transport:</strong> €54.60/month for unlimited metro + bus (Abono Transporte). You will rarely need a car.<br><strong>Utilities:</strong> €80–€140/month (electricity, water, internet)<br><br><strong>Total monthly burn for two people:</strong> €2,200–€3,200 depending on neighbourhood and lifestyle.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">📚</div>
+          <div class="guide-title">Learning Spanish — Realistic Timeline</div>
+          <div class="guide-body">You don't need to be fluent before arriving. But you need enough to serve clients comfortably and navigate daily life.<br><br><strong>Survival Spanish (3–4 months of Duolingo + YouTube):</strong> Greetings, numbers, basic service vocab ("¿Cómo lo quieres?" / "¿Fade alto o bajo?" / "Listo"). This is achievable before you leave.<br><br><strong>Conversational (6–12 months immersed in Madrid):</strong> You'll get here faster than you think once you're surrounded by it. Expats in Madrid commonly report functional conversational Spanish within 6 months of arrival.<br><br><strong>Barbering vocabulary to learn first:</strong> Fade (degradado), beard trim (arreglo de barba), scissors (tijeras), clippers (máquina), temple (sien), neckline (nuca), length (largo). 20 words covers 80% of client conversations.<br><br><strong>Best resource:</strong> SpanishPod101 (YouTube, free) + Pimsleur for speaking practice + ChatGPT for barbering vocabulary flashcards.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">🌅</div>
+          <div class="guide-title">What Life Actually Looks Like in Madrid</div>
+          <div class="guide-body">The practical texture of daily life — so the move feels real, not abstract.<br><br><strong>Working hours:</strong> Madrid runs late. Lunch is 2–4pm, dinner starts at 9–10pm. Barbershop peak hours are typically 11am–2pm and 5–9pm. Plan your schedule accordingly.<br><br><strong>Siesta culture:</strong> Less common than the stereotype, especially in central Madrid, but many small shops still close 2–5pm. As an autónomo, your hours are yours — this is an advantage.<br><br><strong>Weather:</strong> Hot summers (35–40°C in July/August). Mild winters. Budget for aircon in your workspace — non-negotiable for clients in summer.<br><br><strong>Social life:</strong> Madrileños are warm but slower to befriend than Canadians. Join expat groups early (Internations, Facebook groups) for a quick community while local friendships grow organically over 6–12 months.</div>
+        </div>
+        <div class="guide-card">
+          <div class="guide-icon">📦</div>
+          <div class="guide-title">What to Bring, What to Leave</div>
+          <div class="guide-body"><strong>Bring your tools:</strong> Your clippers, guards, scissors, and straight razors. Professional-grade barbering tools are available in Spain but your specific setup is personal. Wahl and Andis are available; some brands are harder to find.<br><br><strong>Voltage:</strong> Spain uses 220V / 50Hz. Canada uses 120V / 60Hz. Most modern clippers (Wahl, Andis) are dual-voltage — check the label. If not, you need a transformer, not just an adapter.<br><br><strong>Furniture / Barber chair:</strong> Don't ship. Buy in Spain. Shipping a barber chair from Canada costs more than buying a quality used one in Madrid. Check Wallapop (Spain's Kijiji) for secondhand professional equipment.<br><br><strong>Leave:</strong> Most furniture, appliances, anything heavy. Storage in Toronto or sell it. The cost of shipping rarely makes financial sense vs. buying secondhand in Madrid.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== YOUR SPACE ===== -->
+<div id="section-space" class="section">
+  <div class="space-wrap">
+    <div class="space-header">
+      <h2>Your Space — Hidden Revenue Before You Leave</h2>
+      <p>You rent your own private room inside a beauty salon — not just a chair. That's a business asset most barbers don't have, and it can meaningfully fund your Madrid move if you use it intentionally.</p>
+    </div>
+
+    <div class="space-insight-banner">
+      <div class="sib-icon">💡</div>
+      <div class="sib-content">
+        <div class="sib-title">The insight nobody's told you</div>
+        <div class="sib-body">You have approximately 20 months before you plan to leave. Your space — the physical room you're renting in that salon — is a revenue lever that could meaningfully accelerate your $50K goal, reduce your overhead, or both. Here's how.</div>
+      </div>
+    </div>
+
+    <div class="space-grid">
+      <div class="space-card space-card-primary">
+        <div class="space-card-label">Strategy 01</div>
+        <div class="space-card-title">Sublet Your Room on Your Off Days</div>
+        <div class="space-card-body">
+          <p>You rent your own dedicated room inside a beauty salon — not just a chair. That's a full private space sitting empty on your days off. A junior barber, a mobile lash tech, an esthetician, or a visiting barber would pay well for access to a professional private room in Toronto.</p>
+          <div class="space-calc">
+            <div class="space-calc-row">
+              <span>2 off-days/week × $200/day</span>
+              <span class="space-calc-val">+$400/week</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Over 20 months (to departure)</span>
+              <span class="space-calc-val">+$34,600</span>
+            </div>
+            <div class="space-calc-row highlight-row">
+              <span>Added to your $50K goal</span>
+              <span class="space-calc-val">Potentially covered</span>
+            </div>
+          </div>
+          <p class="space-note">Having your own room rather than a shared chair gives you more flexibility to sublet without affecting other stylists. Check your salon lease agreement first — many salon owners are open to this, especially if you bring in complementary (not competing) services. A simple written day-use agreement protects you both.</p>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-label">Strategy 02</div>
+        <div class="space-card-title">Host a Monthly "Pop-Up" Evening</div>
+        <div class="space-card-body">
+          <p>One evening per month — 5pm to 9pm — invite a complementary service provider to share your space. Think: a mobile esthetician, a lash tech, a piercer. They bring their own supplies and clients. You charge them $100–$200 for the evening space rental.</p>
+          <div class="space-calc">
+            <div class="space-calc-row">
+              <span>1 evening/month × $150 space fee</span>
+              <span class="space-calc-val">+$150/month</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Cross-referral from their clients</span>
+              <span class="space-calc-val">Priceless</span>
+            </div>
+          </div>
+          <p class="space-note">The real value isn't the $150 — it's that their clients walk through your door, see your work, and become yours. This is a client acquisition strategy disguised as passive income.</p>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-label">Strategy 03</div>
+        <div class="space-card-title">Raise Your Prices — Strategically, Now</div>
+        <div class="space-card-body">
+          <p>You run a professional dedicated space, not a chair rental. Your pricing should reflect that. A $10 increase across your main services (skin fade, scissor cut, facial grooming) is entirely defensible and overdue.</p>
+          <div class="space-calc">
+            <div class="space-calc-row">
+              <span>+$10/cut × 6 cuts × 5 days</span>
+              <span class="space-calc-val">+$300/week</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Over 20 months</span>
+              <span class="space-calc-val">+$26,000</span>
+            </div>
+          </div>
+          <p class="space-note">How to do it without losing clients: announce it 4 weeks out, frame it as a reflection of rising costs and premium service (which it is). Loyal long-term clients accept increases from barbers they trust. New clients never knew your old price.</p>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-label">Strategy 04</div>
+        <div class="space-card-title">Build a "Madrid Farewell" Waitlist</div>
+        <div class="space-card-body">
+          <p>Here's a counterintuitive move: announce your Madrid departure publicly in the next 3–6 months. Not as a goodbye — as urgency. "I'm leaving for Madrid in 20 months. My book is open until then. Here's how to claim your recurring spot before I go."</p>
+          <div class="space-calc">
+            <div class="space-calc-row">
+              <span>Scarcity = demand spike</span>
+              <span class="space-calc-val">↑ Bookings</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Loyal clients pre-pay or book ahead</span>
+              <span class="space-calc-val">↑ Cash flow</span>
+            </div>
+          </div>
+          <p class="space-note">This also gives you 20 months of "farewell content" — the journey to Madrid, documented. Your Toronto clients become your most loyal followers and your first Toronto-to-Madrid word-of-mouth engine.</p>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-label">Strategy 05</div>
+        <div class="space-card-title">Offer a "Founding Client" Pre-Sale for Madrid</div>
+        <div class="space-card-body">
+          <p>In your last 3 months in Toronto, offer existing clients a "Madrid Founding Client" package: pay now, get your first 3 cuts in Madrid at a locked-in Toronto rate. Limited to 20 clients.</p>
+          <div class="space-calc">
+            <div class="space-calc-row">
+              <span>20 clients × 3 cuts × $60 avg</span>
+              <span class="space-calc-val">+$3,600 upfront</span>
+            </div>
+            <div class="space-calc-row">
+              <span>These clients also refer in Madrid</span>
+              <span class="space-calc-val">Your first community</span>
+            </div>
+          </div>
+          <p class="space-note">This is for the clients who genuinely love you — and some of them will visit Madrid. It's also a beautiful, unusual thing to offer. Nobody does this. That's exactly why it works.</p>
+        </div>
+      </div>
+
+      <div class="space-card">
+        <div class="space-card-label">Strategy 05</div>
+        <div class="space-card-title">Hand Off Your Room Before You Leave — Not After</div>
+        <div class="space-card-body">
+          <p>Because you rent your own room (not a shared chair), you have something rare: a transferable tenancy. In the 2–3 months before you leave for Madrid, you can actively find a replacement renter and negotiate a "handover" with your salon owner.</p>
+          <div class="space-calc">
+            <div class="space-calc-row">
+              <span>Goodwill from salon owner</span>
+              <span class="space-calc-val">✓ Preserved</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Potential finder's fee from new renter</span>
+              <span class="space-calc-val">+$300–$800</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Clean exit, no lease liability</span>
+              <span class="space-calc-val">✓ Peace of mind</span>
+            </div>
+          </div>
+          <p class="space-note">Post in Toronto barber communities 4–6 months before you leave. Someone is always looking for a room with existing foot traffic and a warm client base you can introduce them to. This isn't just financial — it's the professional thing to do, and it keeps your Toronto reputation intact if you ever want to return.</p>
+        </div>
+      </div>
+
+      <div class="space-card space-card-timeline">
+        <div class="space-card-label">Putting It Together</div>
+        <div class="space-card-title">Combined Revenue Boost — 20 Months</div>
+        <div class="space-card-body">
+          <div class="space-calc">
+            <div class="space-calc-row">
+              <span>Chair subletting (2 days/week)</span>
+              <span class="space-calc-val">+$34,600</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Price increase (+$10/cut)</span>
+              <span class="space-calc-val">+$26,000</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Monthly pop-up evenings</span>
+              <span class="space-calc-val">+$3,000</span>
+            </div>
+            <div class="space-calc-row">
+              <span>Madrid pre-sale packages</span>
+              <span class="space-calc-val">+$3,600</span>
+            </div>
+            <div class="space-calc-row highlight-row" style="margin-top:0.5rem;padding-top:0.8rem;border-top:1px solid rgba(255,255,255,0.2)">
+              <span>Potential additional revenue</span>
+              <span class="space-calc-val">+$67,200</span>
+            </div>
+          </div>
+          <p class="space-note" style="color:rgba(255,255,255,0.6)">These are conservative estimates, not guarantees. Even capturing 30–40% of this would meaningfully change your Madrid timeline. The point: your space is your biggest untapped asset. Use it fully before you leave it.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== MADRID BUDGET CALCULATOR ===== -->
+<div id="section-cost" class="section">
+  <div class="tracker-wrap">
+    <div class="tracker-header">
+      <h2>Madrid Budget Calculator</h2>
+      <p>Your $50K CAD in Madrid — what does it actually get you? Adjust to your lifestyle and see your real monthly burn and runway.</p>
+    </div>
+    <div class="goal-card" style="margin-bottom:1.5rem">
+      <div class="goal-top">
+        <div><div class="goal-label">Savings arriving in Madrid</div><div class="goal-amount" id="madrid-savings-display">$50,000 CAD</div></div>
+        <div style="text-align:right"><div class="goal-label">≈ In Euros (at ~0.68)</div><div class="goal-amount" style="color:var(--terracotta)" id="madrid-eur-display">€34,000</div></div>
+      </div>
+      <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px"><div class="control-label" style="margin-bottom:4px">CAD savings ($)</div><input class="control-input" id="madrid-cad" type="number" value="50000" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"></div>
+        <div style="flex:1;min-width:180px"><div class="control-label" style="margin-bottom:4px">CAD/EUR rate (~0.68)</div><input class="control-input" id="madrid-rate" type="number" value="0.68" step="0.01" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"></div>
+      </div>
+    </div>
+    <div class="breakdown-title" style="margin-bottom:1rem">Monthly Expenses in Madrid — Adjust to Your Life</div>
+    <div class="controls-grid" style="margin-bottom:1.5rem">
+      <div class="control-card"><div class="control-label">Rent — Malasaña room (€)</div><input class="control-input" id="m-rent" type="number" value="900" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">Avg: €800–1,200/mo</div></div>
+      <div class="control-card"><div class="control-label">Autónomo fees (€)</div><input class="control-input" id="m-autonomo" type="number" value="80" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">€80/mo first yr (flat rate)</div></div>
+      <div class="control-card"><div class="control-label">Chair rental in Madrid (€)</div><input class="control-input" id="m-chair" type="number" value="500" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">Typical: €400–800/mo</div></div>
+      <div class="control-card"><div class="control-label">Food & groceries (€)</div><input class="control-input" id="m-food" type="number" value="350" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">Madrid avg: €250–450/mo</div></div>
+      <div class="control-card"><div class="control-label">Transport (€)</div><input class="control-input" id="m-transport" type="number" value="55" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">Metro abono: ~€54/mo</div></div>
+      <div class="control-card"><div class="control-label">Health insurance (€)</div><input class="control-input" id="m-health" type="number" value="120" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">Private bridge: €80–150/mo</div></div>
+      <div class="control-card"><div class="control-label">Phone & internet (€)</div><input class="control-input" id="m-phone" type="number" value="50" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">Spain avg: €30–70/mo</div></div>
+      <div class="control-card"><div class="control-label">Social / eating out (€)</div><input class="control-input" id="m-social" type="number" value="200" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">Dinner out: €12–25/person</div></div>
+      <div class="control-card"><div class="control-label">Gestora / accountant (€)</div><input class="control-input" id="m-gestora" type="number" value="80" oninput="calcMadrid()" style="font-size:1rem;padding:0.5rem 0.8rem"><div style="font-size:0.68rem;color:var(--muted);margin-top:4px;font-family:'DM Mono',monospace">Essential — €60–100/mo</div></div>
+    </div>
+    <div class="results-grid" style="margin-bottom:1.5rem">
+      <div class="result-card"><div class="result-label">Monthly burn (€)</div><div class="result-value" id="m-monthly-burn">—</div></div>
+      <div class="result-card"><div class="result-label">Monthly burn (CAD equiv)</div><div class="result-value" id="m-monthly-cad">—</div></div>
+      <div class="result-card"><div class="result-label">Runway on savings alone</div><div class="result-value" id="m-runway">—</div></div>
+      <div class="result-card highlight-card"><div class="result-label">Break-even cuts/day needed</div><div class="result-value" id="m-breakeven">—</div></div>
+    </div>
+    <div class="breakdown-section">
+      <div class="breakdown-title">18-Month Burn Projection (from arrival)</div>
+      <div class="breakdown-table-wrap">
+        <table class="breakdown-table"><thead><tr><th>Month</th><th>Monthly burn (€)</th><th>Savings remaining (€)</th><th>Status</th></tr></thead><tbody id="madrid-table-body"></tbody></table>
+      </div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:0.8rem;font-weight:300">This shows pure burn from savings — your actual runway extends once you're earning in Madrid. Break-even above uses a €40 avg service price.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BARBER SPANISH ===== -->
+<div id="section-spanish" class="section">
+  <div class="ai-wrap">
+    <div class="tool-header">
+      <h2>Barber Spanish — Day One Vocabulary</h2>
+      <p>The exact words and phrases you'll use behind the chair in Madrid. Phonetic pronunciation so you can say it right from day one.</p>
+    </div>
+    <div class="campaign-tabs" style="margin-bottom:2rem">
+      <button class="ctab active" onclick="showSpanish('consult',this)">Client Consultation</button>
+      <button class="ctab" onclick="showSpanish('cuts',this)">Cuts & Techniques</button>
+      <button class="ctab" onclick="showSpanish('book',this)">Booking & Payment</button>
+      <button class="ctab" onclick="showSpanish('small',this)">Small Talk</button>
+    </div>
+    <div id="sp-consult" style="display:block">
+      <div class="asset-card" style="margin-bottom:1rem">
+        <div class="asset-type">How to run a full consultation in Spanish</div>
+        <div class="asset-title" style="margin-bottom:1.2rem">The Consultation Script</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+          <div><div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;color:var(--terracotta);margin-bottom:0.8rem;text-transform:uppercase">English</div>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem;color:var(--muted)">What are we doing today?</p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem;color:var(--muted)">How short do you want it?</p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem;color:var(--muted)">Same as last time?</p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem;color:var(--muted)">What about the sides?</p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem;color:var(--muted)">Skin fade or scissor finish?</p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem;color:var(--muted)">Do you want the beard done too?</p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem;color:var(--muted)">Let me show you in the mirror.</p>
+            <p style="font-size:0.82rem;color:var(--muted)">Happy with it?</p>
+          </div>
+          <div><div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.15em;color:var(--terracotta);margin-bottom:0.8rem;text-transform:uppercase">Spanish + Phonetic</div>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>¿Qué hacemos hoy?</strong> <em style="color:var(--muted)">(keh ah-SEH-mos oy)</em></p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>¿Cuánto quieres que te deje?</strong> <em style="color:var(--muted)">(KWAN-toh KYEH-res keh teh DEH-heh)</em></p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>¿Igual que la última vez?</strong> <em style="color:var(--muted)">(ee-GWAL keh la OOL-tee-ma ves)</em></p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>¿Y los lados?</strong> <em style="color:var(--muted)">(ee los LAH-dos)</em></p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>¿Al cero o con tijera?</strong> <em style="color:var(--muted)">(al SEH-ro oh kon tee-HEH-ra)</em></p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>¿También la barba?</strong> <em style="color:var(--muted)">(tam-BYEHN la BAR-ba)</em></p>
+            <p style="font-size:0.82rem;margin-bottom:0.6rem"><strong>Te lo enseño en el espejo.</strong> <em style="color:var(--muted)">(teh lo en-SEH-nyoh en el es-PEH-hoh)</em></p>
+            <p style="font-size:0.82rem"><strong>¿Estás contento?</strong> <em style="color:var(--muted)">(es-TAS kon-TEN-toh)</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="sp-cuts" style="display:none">
+      <div class="asset-card" style="margin-bottom:1rem">
+        <div class="asset-type">Technical vocabulary — cuts, fades & finishing</div>
+        <div class="asset-title" style="margin-bottom:1.2rem">The Craft Vocabulary</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;font-size:0.82rem">
+          <div><div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;color:var(--terracotta);margin-bottom:0.8rem;text-transform:uppercase">English</div>
+            <p style="margin-bottom:0.5rem;color:var(--muted)">Skin fade / bald fade</p><p style="margin-bottom:0.5rem;color:var(--muted)">Taper</p><p style="margin-bottom:0.5rem;color:var(--muted)">Blend</p><p style="margin-bottom:0.5rem;color:var(--muted)">Lineup / edge up</p><p style="margin-bottom:0.5rem;color:var(--muted)">Clipper over comb</p><p style="margin-bottom:0.5rem;color:var(--muted)">Scissor cut</p><p style="margin-bottom:0.5rem;color:var(--muted)">Texture / texturize</p><p style="margin-bottom:0.5rem;color:var(--muted)">Beard trim</p><p style="margin-bottom:0.5rem;color:var(--muted)">Hot towel</p><p style="color:var(--muted)">Straight razor</p>
+          </div>
+          <div><div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;color:var(--terracotta);margin-bottom:0.8rem;text-transform:uppercase">Spanish</div>
+            <p style="margin-bottom:0.5rem"><strong>Degradado al cero</strong></p><p style="margin-bottom:0.5rem"><strong>Degradado</strong></p><p style="margin-bottom:0.5rem"><strong>Difuminar</strong></p><p style="margin-bottom:0.5rem"><strong>Perfilar</strong></p><p style="margin-bottom:0.5rem"><strong>Peine y máquina</strong></p><p style="margin-bottom:0.5rem"><strong>Corte con tijera</strong></p><p style="margin-bottom:0.5rem"><strong>Texturizar</strong></p><p style="margin-bottom:0.5rem"><strong>Arreglar la barba</strong></p><p style="margin-bottom:0.5rem"><strong>Toalla caliente</strong></p><p><strong>Navaja</strong></p>
+          </div>
+          <div><div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;color:var(--terracotta);margin-bottom:0.8rem;text-transform:uppercase">Phonetic</div>
+            <p style="margin-bottom:0.5rem;color:var(--muted)">deh-gra-DAH-do al SEH-ro</p><p style="margin-bottom:0.5rem;color:var(--muted)">deh-gra-DAH-do</p><p style="margin-bottom:0.5rem;color:var(--muted)">dee-foo-mee-NAR</p><p style="margin-bottom:0.5rem;color:var(--muted)">per-fee-LAR</p><p style="margin-bottom:0.5rem;color:var(--muted)">PEH-neh ee MAH-kee-na</p><p style="margin-bottom:0.5rem;color:var(--muted)">KOR-teh kon tee-HEH-ra</p><p style="margin-bottom:0.5rem;color:var(--muted)">tex-too-ree-SAR</p><p style="margin-bottom:0.5rem;color:var(--muted)">ah-reh-GLAR la BAR-ba</p><p style="margin-bottom:0.5rem;color:var(--muted)">toh-AH-ya ka-LYEN-teh</p><p style="color:var(--muted)">nah-VAH-ha</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="sp-book" style="display:none">
+      <div class="asset-card" style="margin-bottom:1rem">
+        <div class="asset-type">Booking, pricing & payment</div>
+        <div class="asset-title" style="margin-bottom:1.2rem">The Business Phrases</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;font-size:0.82rem">
+          <div><div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;color:var(--terracotta);margin-bottom:0.8rem;text-transform:uppercase">English</div>
+            <p style="margin-bottom:0.6rem;color:var(--muted)">Do you have an appointment?</p><p style="margin-bottom:0.6rem;color:var(--muted)">I have availability Thursday.</p><p style="margin-bottom:0.6rem;color:var(--muted)">A fade is €40.</p><p style="margin-bottom:0.6rem;color:var(--muted)">Card or cash?</p><p style="margin-bottom:0.6rem;color:var(--muted)">Do you have Bizum?</p><p style="margin-bottom:0.6rem;color:var(--muted)">Book for next time?</p><p style="color:var(--muted)">Thank you, see you soon!</p>
+          </div>
+          <div><div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.12em;color:var(--terracotta);margin-bottom:0.8rem;text-transform:uppercase">Spanish + Phonetic</div>
+            <p style="margin-bottom:0.6rem"><strong>¿Tienes cita?</strong> <em style="color:var(--muted)">(TYEH-nes SEE-ta)</em></p>
+            <p style="margin-bottom:0.6rem"><strong>Tengo hueco el jueves.</strong> <em style="color:var(--muted)">(TEN-go WEH-ko el HWEH-ves)</em></p>
+            <p style="margin-bottom:0.6rem"><strong>El degradado cuesta 40 euros.</strong> <em style="color:var(--muted)">(KWES-ta KWAR-en-ta EW-ros)</em></p>
+            <p style="margin-bottom:0.6rem"><strong>¿Tarjeta o efectivo?</strong> <em style="color:var(--muted)">(tar-HEH-ta oh eh-fek-TEE-vo)</em></p>
+            <p style="margin-bottom:0.6rem"><strong>¿Tienes Bizum?</strong> <em style="color:var(--muted)">(TYEH-nes bee-SOOM)</em></p>
+            <p style="margin-bottom:0.6rem"><strong>¿Te apunto para la próxima?</strong> <em style="color:var(--muted)">(teh ah-POON-to)</em></p>
+            <p><strong>¡Muchas gracias, hasta pronto!</strong> <em style="color:var(--muted)">(MOO-chas GRA-syas)</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="sp-small" style="display:none">
+      <div class="asset-card" style="margin-bottom:1rem">
+        <div class="asset-type">Small talk — the phrases that build loyalty in Madrid</div>
+        <div class="asset-title" style="margin-bottom:0.8rem">The Connection Phrases</div>
+        <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1.2rem;font-weight:300">In Madrid, small talk builds trust faster than skill alone. Clients who feel at ease become regulars. These are the phrases that make someone feel seen.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;font-size:0.82rem">
+          <div>
+            <p style="margin-bottom:0.8rem"><strong>How was your week?</strong><br><span style="color:var(--terracotta)">¿Cómo fue la semana?</span> <em style="color:var(--muted)">(KO-mo fweh la seh-MAH-na)</em></p>
+            <p style="margin-bottom:0.8rem"><strong>What do you do for work?</strong><br><span style="color:var(--terracotta)">¿A qué te dedicas?</span> <em style="color:var(--muted)">(ah keh teh deh-DEE-kas)</em></p>
+            <p style="margin-bottom:0.8rem"><strong>Are you from Madrid?</strong><br><span style="color:var(--terracotta)">¿Eres de Madrid?</span> <em style="color:var(--muted)">(EH-res deh mah-DREED)</em></p>
+            <p><strong>I'm from Canada — moved here recently.</strong><br><span style="color:var(--terracotta)">Soy de Canadá — llegué hace poco.</span> <em style="color:var(--muted)">(soy deh ka-na-DAH — yeh-GEH AH-seh POH-ko)</em></p>
+          </div>
+          <div>
+            <p style="margin-bottom:0.8rem"><strong>My Spanish is still improving!</strong><br><span style="color:var(--terracotta)">¡Todavía estoy aprendiendo!</span> <em style="color:var(--muted)">(to-da-VEE-a es-toy ah-pren-DYEN-do)</em></p>
+            <p style="margin-bottom:0.8rem"><strong>What do you recommend around here?</strong><br><span style="color:var(--terracotta)">¿Qué recomiendas por aquí?</span> <em style="color:var(--muted)">(keh reh-ko-MYEN-das por ah-KEE)</em></p>
+            <p style="margin-bottom:0.8rem"><strong>You look great — enjoy it!</strong><br><span style="color:var(--terracotta)">¡Te quedó genial!</span> <em style="color:var(--muted)">(teh keh-DOH heh-NYAL)</em></p>
+            <p><strong>Tell your friends!</strong><br><span style="color:var(--terracotta)">¡Díselo a tus amigos!</span> <em style="color:var(--muted)">(DEE-seh-lo ah toos ah-MEE-gos)</em></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border)">
+      <div class="tool-header" style="margin-bottom:1.2rem;text-align:left;border:none;padding:0"><h2 style="font-size:1.4rem">Custom Phrase Generator</h2><p>Describe any situation you'll face — get the Spanish phrase with pronunciation instantly</p></div>
+      <div style="margin-bottom:1rem"><div class="field-label" style="margin-bottom:5px">Describe what you need to say</div><input class="field-input" id="spanish-situation" type="text" placeholder="e.g. Tell a client their beard needs more time to grow before I can shape it properly"></div>
+      <button class="generate-btn" id="spanish-btn" onclick="generateSpanish()">Get My Phrase</button>
+      <div class="output-box" id="spanish-output"><div class="output-label" id="spanish-label">Your phrase</div><div class="output-content" id="spanish-content"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CLIENT FAREWELL GENERATOR ===== -->
+<div id="section-handover" class="section">
+  <div class="ai-wrap">
+    <div class="tool-header">
+      <h2>Client Farewell Letter Generator</h2>
+      <p>The hardest thing to write. When the time comes to tell your Toronto clients you're leaving, this gets it right — personal, warm, and yours.</p>
+    </div>
+    <div class="goal-card" style="margin-bottom:1.5rem;background:var(--charcoal);border-color:transparent">
+      <div style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--cream);margin-bottom:0.5rem">Why this letter matters more than you think</div>
+      <p style="font-size:0.82rem;color:var(--sand);line-height:1.8;font-weight:300">Your Toronto clients aren't just clients — some of them have been in your chair for years. How you say goodbye determines whether they follow you on Instagram, send you referrals from Toronto visitors to Madrid, write glowing Google reviews before you leave, and remember you as someone who left with class. This letter, done right, turns a goodbye into a legacy.</p>
+    </div>
+    <div class="tool-grid">
+      <div class="field-group"><div class="field-label">Client's first name</div><input class="field-input" id="hw-name" type="text" placeholder="e.g. Marcus"></div>
+      <div class="field-group"><div class="field-label">How long have they been a client?</div><select class="field-select" id="hw-duration"><option>About a year</option><option>2–3 years</option><option>Several years</option><option>Since the very beginning</option></select></div>
+      <div class="field-group"><div class="field-label">Tone</div><select class="field-select" id="hw-tone"><option>Warm &amp; Personal</option><option>Professional &amp; Grateful</option><option>Light &amp; Optimistic</option></select></div>
+      <div class="field-group"><div class="field-label">When are you leaving?</div><input class="field-input" id="hw-date" type="text" placeholder="e.g. Summer 2027"></div>
+      <div class="field-group full"><div class="field-label">Anything specific about this client to personalize it?</div><textarea class="field-textarea" id="hw-notes" placeholder="e.g. He always comes in every 3 weeks, loves talking about football, we've built a real friendship..."></textarea></div>
+    </div>
+    <button class="generate-btn" id="hw-btn" onclick="generateFarewell()">Write the Letter</button>
+    <div class="output-box" id="hw-output"><div class="output-label" id="hw-label">Farewell Letter</div><div class="output-content" id="hw-content"></div></div>
+  </div>
+</div>
+
+<!-- ===== MORE TOOLS ===== -->
+<div id="section-tools" class="section">
+  <div class="tools-wrap">
+    <div class="tools-header">
+      <h2>Tools Worth Knowing About</h2>
+      <p>Things that could genuinely help through the transition — and well beyond it</p>
+    </div>
+
+    <div class="tools-section-title">During the Toronto phase — save more, spend less friction</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-card-icon">💱</div>
+        <div class="tool-tag free">Free to start</div>
+        <div class="tool-card-title">Wise — Currency Conversion Without the Bank Tax</div>
+        <div class="tool-card-body">You'll be converting CAD → EUR over the next two years. Every bank charges 2–3% hidden in the exchange rate. <strong>Wise charges ~0.4%.</strong> On $50K, that's the difference between losing $1,200 vs. $200 in fees.<br><br>Open a Wise account now, set up a EUR balance, and convert $3–5K every couple of months rather than all at once. You smooth out exchange rate risk and build your EUR savings before you even land.<br><br><a href="https://wise.com" target="_blank">wise.com →</a></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">📊</div>
+        <div class="tool-tag free">Free</div>
+        <div class="tool-card-title">YNAB — Give Every Dollar a Job</div>
+        <div class="tool-card-body">You Need A Budget (YNAB) is the only budgeting app that actually changes behaviour because it forces you to assign every dollar a purpose before you spend it — not after. For someone trying to hit a hard savings target with a variable income, it's genuinely transformative.<br><br><strong>The killer feature:</strong> It separates your "available to spend" from your "saving for Madrid" so you always know exactly where you stand without doing math in your head.<br><br><a href="https://ynab.com" target="_blank">ynab.com →</a> (free trial, then ~$109 CAD/year)</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">🗓️</div>
+        <div class="tool-tag free">Free</div>
+        <div class="tool-card-title">Acuity / Vagaro Upgrade — Stop Losing Bookings to No-Shows</div>
+        <div class="tool-card-body">No-shows are pure revenue loss. If you're not already collecting a deposit at booking, you're absorbing that cost. <strong>Vagaro lets you require deposits</strong> — even $20–$30 per booking eliminates 80%+ of no-shows overnight.<br><br>You're running a private space with no overhead. Every empty slot is 100% lost margin. A deposit policy isn't rude — it's what professional barbers with a waitlist do. And you should have a waitlist.<br><br>Turn it on in Vagaro → Settings → Services → Deposit Required.</div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">📸</div>
+        <div class="tool-tag free">Free</div>
+        <div class="tool-card-title">Lightroom Mobile — Consistent Photo Editing in 30 Seconds</div>
+        <div class="tool-card-body">The single biggest visual upgrade most barbers can make costs nothing. Inconsistent lighting and colour between posts is what makes an Instagram grid look amateur.<br><br><strong>Create one preset</strong> in Lightroom Mobile (warm tones, slightly lifted shadows, terracotta-leaning) and apply it to every work photo in one tap. Your grid will look like a professional brand overnight, not a collection of random shots.<br><br>Free on iOS and Android. One afternoon to set up, permanent payoff.</div>
+      </div>
+    </div>
+
+    <div class="tools-section-title">Building the Madrid presence — start now, arrive known</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-card-icon">🌐</div>
+        <div class="tool-tag forever">Keep forever</div>
+        <div class="tool-card-title">Later or Buffer — Schedule a Month of Posts in an Afternoon</div>
+        <div class="tool-card-body">Consistency is the game on Instagram, and the biggest enemy of consistency is having to think of something to post every day. Scheduling tools let you batch-create content — spend one Sunday afternoon and your entire month is posted automatically.<br><br><strong>Later</strong> has a free tier, a visual grid planner, and auto-publish. <strong>Buffer</strong> is cleaner for someone managing one account. Either works. Both cost less than a coffee per day.<br><br>Pair with the AI Content Tool in this suite: generate 30 captions in 20 minutes, schedule them all, done. <a href="https://later.com" target="_blank">later.com →</a></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">🎙️</div>
+        <div class="tool-tag free">Free tier</div>
+        <div class="tool-card-title">Duolingo + Pimsleur — Spanish That Actually Sticks</div>
+        <div class="tool-card-body">Duolingo is fine for vocabulary. But for actually speaking — which is what you'll need behind the chair in Madrid — <strong>Pimsleur is better</strong>. It's audio-first and designed for conversational fluency, not reading comprehension.<br><br>15 minutes of Pimsleur on your commute or between clients, every weekday, for 12 months = genuinely functional conversational Spanish before you land.<br><br>And posting about learning Spanish on Instagram is content gold. Your Toronto audience will cheer you on. Your future Madrid audience will find you.<br><br><a href="https://www.pimsleur.com" target="_blank">pimsleur.com →</a></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">🔗</div>
+        <div class="tool-tag forever">Keep forever</div>
+        <div class="tool-card-title">Linktree or Beacons — One Link That Does Everything</div>
+        <div class="tool-card-body">Right now your Instagram bio probably points to one thing. As your Madrid presence builds, you'll want people to be able to: book a Toronto appointment, join the Madrid waitlist, follow your journey, and buy gift cards — from one tap.<br><br><strong>Beacons</strong> is the current favourite for independent creators — it's free, beautiful, and lets you sell digital products (gift cards, session packs) directly from your link page with no extra app.<br><br>Set it up now, keep updating it as your journey evolves. <a href="https://beacons.ai" target="_blank">beacons.ai →</a></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">📧</div>
+        <div class="tool-tag forever">Keep forever</div>
+        <div class="tool-card-title">Mailchimp or Kit — Build an Email List Before You Need One</div>
+        <div class="tool-card-body">Instagram can shadowban you, change its algorithm, or disappear tomorrow. An email list is yours forever. For a barber moving cities, this is your most important asset — a direct line to every loyal client, no platform in between.<br><br><strong>Start collecting emails now.</strong> A simple "Join my newsletter — Toronto updates and Madrid countdown" in your bio. Even 200 emails by the time you leave is 200 people who have opted in to follow your story.<br><br><strong>Kit</strong> (formerly ConvertKit) is free up to 10,000 subscribers and built for independent creators. <a href="https://kit.com" target="_blank">kit.com →</a></div>
+      </div>
+    </div>
+
+    <div class="tools-section-title">Once you're in Madrid — tools that make the first year easier</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-card-icon">🧾</div>
+        <div class="tool-tag forever">Keep forever</div>
+        <div class="tool-card-title">Holded or Conta — Spanish Accounting Made Simple</div>
+        <div class="tool-card-body">As an autónomo in Spain, you'll file quarterly tax returns (IVA + IRPF). Spanish accounting software designed for autónomos makes this manageable without a full accountant.<br><br><strong>Holded</strong> is the most popular for small Spanish businesses — it handles invoicing, expense tracking, and auto-generates your quarterly tax summaries. Your gestora (accountant) can log in directly.<br><br>Even if you hire a gestora for filings (recommended in year one), doing your own bookkeeping in Holded saves you hours of back-and-forth.<br><br><a href="https://www.holded.com" target="_blank">holded.com →</a></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">💳</div>
+        <div class="tool-tag free">Low fees</div>
+        <div class="tool-card-title">Sumup — Card Payments in Madrid from Day One</div>
+        <div class="tool-card-body">Spain is increasingly cashless, especially in Malasaña and Chueca. You need a card reader that works with your Spanish bank account from day one.<br><br><strong>Sumup</strong> is the most widely used reader among independent barbers and stylists in Spain. It's €39 for the hardware, 1.69% per transaction, and connects to any Spanish bank account or Wise EUR account.<br><br>No monthly fees. No contracts. Order it to arrive the week you land and you'll never have to turn away a client for not having cash.<br><br><a href="https://sumup.es" target="_blank">sumup.es →</a></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">🤝</div>
+        <div class="tool-tag free">Free</div>
+        <div class="tool-card-title">Internations Madrid — Your First Community in Spain</div>
+        <div class="tool-card-body">Internations is the largest expat community network in the world. Madrid's chapter is active, runs regular events, and is full of exactly your first client demographic: English-speaking professionals who just moved to the city and desperately want a barber they can communicate with.<br><br>Join now and attend a few events before you move so you're not starting cold. This is client acquisition disguised as socialising.<br><br>It's also where you'll find English-speaking doctors, lawyers, accountants, and landlords — the practical network a new expat needs.<br><br><a href="https://www.internations.org/madrid-expats" target="_blank">internations.org →</a></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-icon">🏥</div>
+        <div class="tool-tag free">Research now</div>
+        <div class="tool-card-title">Allianz Care or Cigna Global — Bridge Health Insurance</div>
+        <div class="tool-card-body">You'll lose OHIP after 212 days outside Ontario. And autónomo social security coverage takes a few months to fully activate in Spain. That gap is real and needs to be covered.<br><br><strong>Allianz Care</strong> and <strong>Cigna Global</strong> are the two most used international health insurers among Canadian expats in Spain. Plans start around €80–€130/month for comprehensive coverage.<br><br>Get a quote before you leave Toronto — pre-existing condition declarations are easier when you're still in Canada and have your medical records accessible.<br><br>Budget €1,000–€1,500 for your first year of bridge coverage as part of the $50K plan.</div>
+      </div>
+    </div>
+
+    <div class="tools-section-title">The one thing most people forget</div>
+    <div class="tools-grid">
+      <div class="tool-card" style="grid-column: 1 / -1; background: var(--charcoal); border-color: transparent;">
+        <div class="tool-card-icon">🧠</div>
+        <div class="tool-card-title" style="color:var(--cream); font-size:1.3rem;">A Therapist or Coach — Seriously</div>
+        <div class="tool-card-body" style="color:var(--sand);">Moving countries, leaving everything you've built, starting over in a new language with a partner — while simultaneously trying to save a significant amount of money in under a year — is genuinely one of the most stressful things a person can do. Even when it's exciting. Especially when it's exciting.<br><br><strong style="color:var(--cream);">The barbers and creatives who navigate big transitions best usually have one thing in common:</strong> they're talking to someone. A therapist, a business coach, or both. Not because something is wrong — because something big is happening and having a thinking partner changes the quality of your decisions.<br><br>BetterHelp and Talkspace both have therapists who specialise in life transitions and work with clients internationally. Many Ontario therapists will continue to see you remotely for the first year after you move. This one is worth looking into before you go — not after.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+<script>
+function showSection(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+function showM101(id, el) {
+  document.querySelectorAll('.m101-content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.m101tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('m101-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+// Set letter date
+const d = new Date();
+document.getElementById('letter-date').textContent = d.toLocaleDateString('en-CA', { year:'numeric', month:'long', day:'numeric' });
+
+let cur = 1;
+const total = 5;
+
+function goSlide(n) {
+  document.getElementById('slide-' + cur).classList.remove('active');
+  document.querySelectorAll('.slide-dot')[cur - 1].classList.remove('active');
+  cur = n;
+  document.getElementById('slide-' + cur).classList.add('active');
+  document.querySelectorAll('.slide-dot')[cur - 1].classList.add('active');
+  document.getElementById('slide-counter').textContent = String(cur).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+  document.getElementById('btn-prev').disabled = cur === 1;
+  document.getElementById('btn-next').disabled = cur === total;
+}
+
+function changeSlide(d) {
+  const n = cur + d;
+  if (n >= 1 && n <= total) goSlide(n);
+}
+
+document.addEventListener('keydown', e => {
+  if (document.getElementById('section-pitch') && document.getElementById('section-pitch').classList.contains('active')) {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  }
+});
+
+function showTab(id, el) {
+  document.querySelectorAll('.ctab-content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.ctab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+function togglePhase(el) { el.classList.toggle('open'); }
+
+function c(e, el) {
+  e.stopPropagation();
+  el.classList.toggle('done');
+}
+
+async function generate() {
+  const type = document.getElementById('content-type').value;
+  const service = document.getElementById('service-type').value;
+  const tone = document.getElementById('content-tone').value;
+  const cta = document.getElementById('include-cta').value;
+  const extra = document.getElementById('extra').value.trim();
+
+  const btn = document.getElementById('gen-btn');
+  const box = document.getElementById('output-box');
+  const content = document.getElementById('output-content');
+  const label = document.getElementById('output-label');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-ring"></span>Generating...';
+  box.classList.add('visible');
+  content.textContent = '';
+  label.innerHTML = '<span class="loading-ring"></span>Writing...';
+
+  const prompt = `You are a social media copywriter for Tash, a skilled barber based in Toronto (Instagram: @teopiia_barber) who runs Tash's Barbershop. Tash is planning to move to Madrid, Spain in approximately 2 years to restart her barbering career there with her partner.
+
+Write the following: ${type}
+
+Service to feature: ${service}
+Tone: ${tone}
+CTA: ${cta}
+${extra ? 'Extra context: ' + extra : ''}
+
+Guidelines:
+- Write ONLY the content — no explanation or preamble
+- Sound like a real person, not a brand account
+- Never overly salesy or pushy
+- For Toronto posts: warm, craft-proud, community-connected
+- For Madrid-facing posts: excited but grounded, not desperate
+- For bilingual posts: write English first, then a Spanish version below a divider line (—)
+- Hashtags at the end if it's an Instagram caption (8-12 hashtags)
+- Keep it genuine. Tash has real skill and a real story. Let that come through.`;
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 1000,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content.map(i => i.text || '').join('');
+    content.textContent = text;
+    label.textContent = '✦ Generated · ' + type.toUpperCase();
+  } catch (err) {
+    content.textContent = 'Something went wrong. Try again.';
+    label.textContent = 'Error';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Generate Content';
+}
+
+// ===== $50K TRACKER =====
+function fmt(n) {
+  return '$' + Math.round(n).toLocaleString();
+}
+
+function recalc() {
+  const saved = parseFloat(document.getElementById('already-saved').value) || 0;
+  const cutsDay = parseFloat(document.getElementById('cuts-per-day').value) || 6;
+  const daysWeek = parseFloat(document.getElementById('days-per-week').value) || 5;
+  const avgPrice = parseFloat(document.getElementById('avg-price').value) || 55;
+  const expenses = parseFloat(document.getElementById('monthly-expenses').value) || 2800;
+  const otherIncome = parseFloat(document.getElementById('other-income').value) || 0;
+  const rent = parseFloat(document.getElementById('rent-amount').value) || 0;
+
+  const goal = 50000;
+  const today = new Date();
+  const deadline = new Date('2026-12-31');
+  const msLeft = deadline - today;
+  const daysLeft = Math.max(0, Math.ceil(msLeft / 86400000));
+  const monthsLeft = daysLeft / 30.44;
+
+  document.getElementById('days-left').textContent = daysLeft.toLocaleString();
+
+  // Revenue calcs
+  const weeklyRev = cutsDay * daysWeek * avgPrice;
+  const monthlyRev = weeklyRev * 4.33;
+  const monthlySave = monthlyRev + otherIncome - expenses;
+  const totalSaveByDeadline = saved + (monthlySave * monthsLeft);
+
+  // Progress
+  const pct = Math.min(100, Math.round((saved / goal) * 100));
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = pct + '% there';
+  document.getElementById('display-saved').textContent = fmt(saved);
+  document.getElementById('remaining-note').innerHTML =
+    fmt(Math.max(0, goal - saved)) + ' remaining · <span id="days-left">' + daysLeft.toLocaleString() + '</span> days until Dec 31, 2026';
+
+  document.getElementById('weekly-rev').textContent = fmt(weeklyRev);
+  document.getElementById('monthly-rev').textContent = fmt(monthlyRev);
+
+  const savEl = document.getElementById('monthly-save');
+  savEl.textContent = fmt(monthlySave);
+  savEl.className = 'result-value ' + (monthlySave >= 0 ? 'good' : 'bad');
+
+  const trackEl = document.getElementById('on-track');
+  const shortfall = goal - totalSaveByDeadline;
+  if (totalSaveByDeadline >= goal) {
+    trackEl.textContent = '✓ Yes';
+    trackEl.className = 'result-value good';
+  } else {
+    trackEl.textContent = fmt(shortfall) + ' short';
+    trackEl.className = 'result-value bad';
+  }
+
+  // Month-by-month table
+  const tbody = document.getElementById('table-body');
+  tbody.innerHTML = '';
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const startMonth = today.getMonth(); // 0-indexed
+  const startYear = today.getFullYear();
+  let running = saved;
+  let goalHitRow = -1;
+
+  // Generate months from now to Dec 2025
+  const rows = [];
+  let m = startMonth;
+  let y = startYear;
+  while (y < 2026) {
+    if (y === 2026 || (y === startYear && m >= startMonth)) {
+      rows.push({ m, y });
+    }
+    m++;
+    if (m > 11) { m = 0; y++; }
+    if (y > 2026) break;
+  }
+
+  rows.forEach((row, i) => {
+    const monthName = months[row.m] + ' ' + row.y;
+    // Partial month for current month
+    let daysInMonth = new Date(row.y, row.m + 1, 0).getDate();
+    let fraction = 1;
+    if (row.y === today.getFullYear() && row.m === today.getMonth()) {
+      const dayOfMonth = today.getDate();
+      fraction = (daysInMonth - dayOfMonth) / daysInMonth;
+    }
+    const monthSave = monthlySave * fraction;
+    const monthRev = monthlyRev * fraction;
+    running += monthSave;
+    const runningCapped = Math.min(running, 99999999);
+    const diff = runningCapped - goal;
+    const hitGoal = running >= goal && goalHitRow === -1;
+    if (hitGoal) goalHitRow = i;
+
+    const tr = document.createElement('tr');
+    if (running >= goal) tr.className = 'goal-hit';
+
+    tr.innerHTML = `
+      <td class="month-label">${monthName}${hitGoal ? ' 🎯' : ''}</td>
+      <td>${fmt(monthRev)}</td>
+      <td>${fmt(monthSave)}</td>
+      <td>${fmt(Math.min(running, goal + 9999))}</td>
+      <td class="${diff >= 0 ? 'on-track' : 'behind'}">${diff >= 0 ? '+' + fmt(diff) : fmt(diff)}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Price raise impact
+  const currentPrice = parseFloat(document.getElementById('current-price').value) || 55;
+  const newPrice = parseFloat(document.getElementById('new-price').value) || 65;
+  const priceDiff = newPrice - currentPrice;
+  const extraPerMonth = priceDiff * cutsDay * daysWeek * 4.33;
+  const extraTotal = extraPerMonth * monthsLeft;
+  const prEl = document.getElementById('price-raise-impact');
+  if (priceDiff > 0) {
+    prEl.textContent = '+' + fmt(Math.max(0, extraTotal));
+    prEl.style.color = '#4A8C5C';
+  } else if (priceDiff < 0) {
+    prEl.textContent = fmt(extraTotal);
+    prEl.style.color = 'var(--terracotta)';
+  } else {
+    prEl.textContent = 'No change';
+    prEl.style.color = 'var(--muted)';
+  }
+
+  // Madrid rent planning (€ to CAD at ~0.68 rate)
+  const rentEl = document.getElementById('rent-result-value');
+  const runwayEl = document.getElementById('runway-after-rent');
+  const madridRentEUR = parseFloat(document.getElementById('rent-amount').value) || 0;
+  if (madridRentEUR > 0) {
+    const cadRate = 1 / 0.68; // EUR to CAD
+    const moveInCAD = Math.round(madridRentEUR * 2 * cadRate); // first + last
+    const remaining = Math.max(0, goal - moveInCAD);
+    rentEl.textContent = '$' + moveInCAD.toLocaleString() + ' CAD';
+    runwayEl.textContent = '$' + remaining.toLocaleString() + ' CAD';
+  } else {
+    rentEl.textContent = 'Enter rent above';
+    runwayEl.textContent = '—';
+  }
+}
+
+
+// ===== SPANISH TABS =====
+function showSpanish(id, el) {
+  document.querySelectorAll('#sp-consult,#sp-cuts,#sp-book,#sp-small').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('#section-spanish .ctab').forEach(b => b.classList.remove('active'));
+  document.getElementById('sp-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ===== MADRID BUDGET CALCULATOR =====
+function calcMadrid() {
+  const cad = parseFloat(document.getElementById('madrid-cad').value) || 50000;
+  const rate = parseFloat(document.getElementById('madrid-rate').value) || 0.68;
+  const eur = cad * rate;
+
+  document.getElementById('madrid-savings-display').textContent = '$' + cad.toLocaleString() + ' CAD';
+  document.getElementById('madrid-eur-display').textContent = '€' + Math.round(eur).toLocaleString();
+
+  const burn = [
+    'madrid-rent','madrid-autonomo','madrid-chair','madrid-food',
+    'madrid-transport','madrid-health','madrid-phone','madrid-social','madrid-gestora'
+  ].map(id => {
+    const el = document.getElementById('m-' + id.replace('madrid-',''));
+    return el ? (parseFloat(el.value) || 0) : 0;
+  });
+
+  // get all m- inputs
+  const fields = ['m-rent','m-autonomo','m-chair','m-food','m-transport','m-health','m-phone','m-social','m-gestora'];
+  const monthlyBurnEur = fields.reduce((sum, id) => sum + (parseFloat(document.getElementById(id)?.value) || 0), 0);
+  const monthlyBurnCad = monthlyBurnEur / rate;
+  const runwayMonths = Math.floor(eur / monthlyBurnEur);
+
+  // Break-even: cuts needed at €40 avg (Madrid premium)
+  const avgMadridCut = 40;
+  const workDaysMonth = 22;
+  const cutsNeeded = Math.ceil(monthlyBurnEur / avgMadridCut / workDaysMonth * 10) / 10;
+
+  document.getElementById('m-monthly-burn').textContent = '€' + Math.round(monthlyBurnEur).toLocaleString();
+  document.getElementById('m-monthly-cad').textContent = '$' + Math.round(monthlyBurnCad).toLocaleString();
+  document.getElementById('m-runway').textContent = runwayMonths + ' months';
+  document.getElementById('m-breakeven').textContent = cutsNeeded + ' cuts/day';
+
+  // Table
+  const tbody = document.getElementById('madrid-table-body');
+  tbody.innerHTML = '';
+  const mnames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  let remaining = eur;
+  const startM = new Date().getMonth();
+  const startY = new Date().getFullYear();
+  // Start from arrival: ~2 years out
+  const arrivalDate = new Date(startY + 2, startM, 1);
+
+  for (let i = 0; i < 18; i++) {
+    const d = new Date(arrivalDate.getFullYear(), arrivalDate.getMonth() + i, 1);
+    remaining -= monthlyBurnEur;
+    const status = remaining > monthlyBurnEur * 3 ? 'on-track' : remaining > 0 ? 'behind' : 'behind';
+    const statusText = remaining > monthlyBurnEur * 3 ? '✓ Comfortable' : remaining > 0 ? '⚠ Getting thin' : '✗ Savings gone';
+    const tr = document.createElement('tr');
+    if (remaining <= 0) tr.className = 'goal-hit';
+    tr.innerHTML = `<td class="month-label">${mnames[d.getMonth()]} ${d.getFullYear()}</td><td>€${Math.round(monthlyBurnEur).toLocaleString()}</td><td>€${Math.max(0,Math.round(remaining)).toLocaleString()}</td><td class="${status}">${statusText}</td>`;
+    tbody.appendChild(tr);
+    if (remaining <= 0 && i > 6) break;
+  }
+}
+
+// ===== SPANISH PHRASE GENERATOR =====
+async function generateSpanish() {
+  const situation = document.getElementById('spanish-situation').value.trim();
+  if (!situation) return;
+
+  const btn = document.getElementById('spanish-btn');
+  const box = document.getElementById('spanish-output');
+  const content = document.getElementById('spanish-content');
+  const label = document.getElementById('spanish-label');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-ring"></span>Translating...';
+  box.classList.add('visible');
+  content.textContent = '';
+  label.innerHTML = '<span class="loading-ring"></span>Working...';
+
+  const prompt = `You are a Spanish language tutor helping Tash, a Canadian barber moving to Madrid. She needs to know how to say something in her barbershop.
+
+Situation: ${situation}
+
+Respond with:
+1. The Spanish phrase(s) — in bold
+2. A phonetic pronunciation guide (simple, like "keh ah-SEH-mos")
+3. A literal translation to help her remember it
+4. One natural variation she might also hear from a Madrid client
+5. A quick tip if there's a cultural nuance to know
+
+Keep it warm, practical, and encouraging. Format clearly. No preamble.`;
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 600,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await res.json();
+    content.textContent = data.content.map(i => i.text || '').join('');
+    label.textContent = '✦ Your phrase — ready to use';
+  } catch(e) {
+    content.textContent = 'Something went wrong. Try again.';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Get My Phrase';
+}
+
+// ===== FAREWELL LETTER GENERATOR =====
+async function generateFarewell() {
+  const name = document.getElementById('hw-name').value.trim() || 'there';
+  const duration = document.getElementById('hw-duration').value;
+  const tone = document.getElementById('hw-tone').value;
+  const date = document.getElementById('hw-date').value.trim() || 'summer 2027';
+  const notes = document.getElementById('hw-notes').value.trim();
+
+  const btn = document.getElementById('hw-btn');
+  const box = document.getElementById('hw-output');
+  const content = document.getElementById('hw-content');
+  const label = document.getElementById('hw-label');
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-ring"></span>Writing...';
+  box.classList.add('visible');
+  content.textContent = '';
+  label.innerHTML = '<span class="loading-ring"></span>Finding the words...';
+
+  const prompt = `You are writing a farewell message from Tash, a skilled Toronto barber who has been running her own private barbershop space for years. She is leaving for Madrid, Spain in ${date} to start a new chapter in barbering with her partner.
+
+Write a personal farewell message to her client named ${name}, who has been coming to her for ${duration}.
+
+Tone: ${tone}
+${notes ? 'Personal details about this client: ' + notes : ''}
+
+The message should:
+- Feel completely personal and human, not like a template
+- Acknowledge the relationship and what it has meant
+- Announce the move with excitement, not apology
+- Let them know how to stay connected (Instagram, booking link if visiting Madrid)
+- Invite them to come find her if they're ever in Madrid
+- End warmly — like a real goodbye from someone who genuinely cares
+- Be 200–280 words — long enough to feel real, short enough to actually get read
+
+Write ONLY the message. No subject line, no explanation. Start with "Hi [name]," or similar.`;
+
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-20250514",
+        max_tokens: 600,
+        messages: [{ role: "user", content: prompt }]
+      })
+    });
+    const data = await res.json();
+    content.textContent = data.content.map(i => i.text || '').join('');
+    label.textContent = '✦ Farewell letter — ' + name;
+  } catch(e) {
+    content.textContent = 'Something went wrong. Try again.';
+  }
+  btn.disabled = false;
+  btn.textContent = 'Write the Letter';
+}
+
+// Init Madrid calculator
+
+// ===== SPANISH TABS =====
+function showSpanish(id, el) {
+  ['consult','cuts','book','small'].forEach(t => {
+    const el2 = document.getElementById('sp-' + t);
+    if (el2) el2.style.display = 'none';
+  });
+  document.querySelectorAll('#section-spanish .ctab').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById('sp-' + id);
+  if (target) target.style.display = 'block';
+  el.classList.add('active');
+}
+
+// ===== MADRID BUDGET =====
+function calcMadrid() {
+  const cad = parseFloat(document.getElementById('madrid-cad')?.value) || 50000;
+  const rate = parseFloat(document.getElementById('madrid-rate')?.value) || 0.68;
+  const eur = cad * rate;
+  const disp = document.getElementById('madrid-savings-display');
+  const eurDisp = document.getElementById('madrid-eur-display');
+  if (disp) disp.textContent = '$' + cad.toLocaleString() + ' CAD';
+  if (eurDisp) eurDisp.textContent = '€' + Math.round(eur).toLocaleString();
+
+  const fields = ['m-rent','m-autonomo','m-chair','m-food','m-transport','m-health','m-phone','m-social','m-gestora'];
+  const monthlyBurnEur = fields.reduce((sum, id) => {
+    const el = document.getElementById(id);
+    return sum + (el ? (parseFloat(el.value) || 0) : 0);
+  }, 0);
+  const monthlyBurnCad = monthlyBurnEur / rate;
+  const runwayMonths = monthlyBurnEur > 0 ? Math.floor(eur / monthlyBurnEur) : 0;
+  const cutsNeeded = monthlyBurnEur > 0 ? (Math.ceil(monthlyBurnEur / 40 / 22 * 10) / 10) : 0;
+
+  const mb = document.getElementById('m-monthly-burn');
+  const mc = document.getElementById('m-monthly-cad');
+  const mr = document.getElementById('m-runway');
+  const mbe = document.getElementById('m-breakeven');
+  if (mb) mb.textContent = '€' + Math.round(monthlyBurnEur).toLocaleString();
+  if (mc) mc.textContent = '$' + Math.round(monthlyBurnCad).toLocaleString();
+  if (mr) mr.textContent = runwayMonths + ' months';
+  if (mbe) mbe.textContent = cutsNeeded + ' cuts/day';
+
+  const tbody = document.getElementById('madrid-table-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  const mnames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const now = new Date();
+  let remaining = eur;
+  for (let i = 0; i < 18; i++) {
+    const d = new Date(now.getFullYear() + 2, now.getMonth() + i, 1);
+    remaining -= monthlyBurnEur;
+    const cls = remaining > monthlyBurnEur * 3 ? 'on-track' : 'behind';
+    const txt = remaining > monthlyBurnEur * 3 ? '✓ Comfortable' : remaining > 0 ? '⚠ Getting thin' : '✗ Savings depleted';
+    const tr = document.createElement('tr');
+    if (remaining <= 0) tr.className = 'goal-hit';
+    tr.innerHTML = `<td class="month-label">${mnames[d.getMonth()]} ${d.getFullYear()}</td><td>€${Math.round(monthlyBurnEur).toLocaleString()}</td><td>€${Math.max(0,Math.round(remaining)).toLocaleString()}</td><td class="${cls}">${txt}</td>`;
+    tbody.appendChild(tr);
+    if (remaining <= 0 && i > 4) break;
+  }
+}
+
+// ===== SPANISH PHRASE GENERATOR =====
+async function generateSpanish() {
+  const situation = document.getElementById('spanish-situation')?.value.trim();
+  if (!situation) return;
+  const btn = document.getElementById('spanish-btn');
+  const box = document.getElementById('spanish-output');
+  const content = document.getElementById('spanish-content');
+  const label = document.getElementById('spanish-label');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="loading-ring"></span>Translating...';
+  box.classList.add('visible');
+  content.textContent = '';
+  label.innerHTML = '<span class="loading-ring"></span>Working...';
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 500,
+        messages: [{ role: "user", content: `You are a Spanish language tutor helping Tash, a Canadian barber moving to Madrid. She needs barbershop Spanish.
+
+Situation: ${situation}
+
+Give her:
+1. The Spanish phrase (bold)
+2. Phonetic pronunciation (simple, e.g. "keh ah-SEH-mos")
+3. Literal translation to help her remember it
+4. One natural variation she might hear from Madrid clients
+5. A quick cultural tip if relevant
+
+Warm and encouraging tone. No preamble. Practical.` }] })
+    });
+    const data = await res.json();
+    content.textContent = data.content.map(i => i.text || '').join('');
+    label.textContent = '✦ Your phrase';
+  } catch(e) { content.textContent = 'Something went wrong. Try again.'; }
+  btn.disabled = false; btn.textContent = 'Get My Phrase';
+}
+
+// ===== FAREWELL LETTER =====
+async function generateFarewell() {
+  const name = document.getElementById('hw-name')?.value.trim() || 'there';
+  const duration = document.getElementById('hw-duration')?.value || 'a few years';
+  const tone = document.getElementById('hw-tone')?.value || 'warm and personal';
+  const date = document.getElementById('hw-date')?.value.trim() || 'summer 2027';
+  const notes = document.getElementById('hw-notes')?.value.trim() || '';
+  const btn = document.getElementById('hw-btn');
+  const box = document.getElementById('hw-output');
+  const content = document.getElementById('hw-content');
+  const label = document.getElementById('hw-label');
+  btn.disabled = true; btn.innerHTML = '<span class="loading-ring"></span>Writing...';
+  box.classList.add('visible'); content.textContent = '';
+  label.innerHTML = '<span class="loading-ring"></span>Finding the words...';
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 600,
+        messages: [{ role: "user", content: `Write a farewell message from Tash, a Toronto barber leaving for Madrid, Spain in ${date}.
+
+Client: ${name}, been coming for ${duration}.
+Tone: ${tone}
+${notes ? 'About this client: ' + notes : ''}
+
+The message should feel completely personal — not a template. Acknowledge the relationship. Announce the move with excitement not apology. Let them know how to follow along (Instagram). Invite them to visit in Madrid. End warmly.
+
+200–280 words. Start with "Hi ${name}," or similar. Write ONLY the message.` }] })
+    });
+    const data = await res.json();
+    content.textContent = data.content.map(i => i.text || '').join('');
+    label.textContent = '✦ Letter for ' + name;
+  } catch(e) { content.textContent = 'Something went wrong. Try again.'; }
+  btn.disabled = false; btn.textContent = 'Write the Letter';
+}
+
+calcMadrid();
+
+// ===== DATA PERSISTENCE SYSTEM =====
+function saveAllData() {
+  const data = {
+    // Financial calculator data
+    cad: document.getElementById('cad')?.value || '',
+    rent: document.getElementById('rent')?.value || '',
+    food: document.getElementById('food')?.value || '',
+    misc: document.getElementById('misc')?.value || '',
+    
+    // Spanish phrase generator
+    spanishSituation: document.getElementById('spanish-situation')?.value || '',
+    spanishOutput: document.getElementById('spanish-content')?.textContent || '',
+    
+    // Farewell letter generator
+    hwName: document.getElementById('hw-name')?.value || '',
+    hwDuration: document.getElementById('hw-duration')?.value || '',
+    hwTone: document.getElementById('hw-tone')?.value || '',
+    hwDate: document.getElementById('hw-date')?.value || '',
+    hwNotes: document.getElementById('hw-notes')?.value || '',
+    hwOutput: document.getElementById('hw-content')?.textContent || '',
+    
+    // Any other form fields
+    timestamp: new Date().toISOString()
+  };
+  
+  localStorage.setItem('tashMadridData', JSON.stringify(data));
+}
+
+function loadAllData() {
+  try {
+    const saved = localStorage.getItem('tashMadridData');
+    if (!saved) return;
+    
+    const data = JSON.parse(saved);
+    
+    // Restore financial calculator
+    if (data.cad && document.getElementById('cad')) {
+      document.getElementById('cad').value = data.cad;
+    }
+    if (data.rent && document.getElementById('rent')) {
+      document.getElementById('rent').value = data.rent;
+    }
+    if (data.food && document.getElementById('food')) {
+      document.getElementById('food').value = data.food;
+    }
+    if (data.misc && document.getElementById('misc')) {
+      document.getElementById('misc').value = data.misc;
+    }
+    
+    // Restore Spanish phrase generator
+    if (data.spanishSituation && document.getElementById('spanish-situation')) {
+      document.getElementById('spanish-situation').value = data.spanishSituation;
+    }
+    if (data.spanishOutput && document.getElementById('spanish-content')) {
+      document.getElementById('spanish-content').textContent = data.spanishOutput;
+      if (data.spanishOutput.length > 0) {
+        document.getElementById('spanish-output')?.classList.add('visible');
+        const label = document.getElementById('spanish-label');
+        if (label) label.textContent = '✦ Your phrase';
+      }
+    }
+    
+    // Restore farewell letter generator
+    if (data.hwName && document.getElementById('hw-name')) {
+      document.getElementById('hw-name').value = data.hwName;
+    }
+    if (data.hwDuration && document.getElementById('hw-duration')) {
+      document.getElementById('hw-duration').value = data.hwDuration;
+    }
+    if (data.hwTone && document.getElementById('hw-tone')) {
+      document.getElementById('hw-tone').value = data.hwTone;
+    }
+    if (data.hwDate && document.getElementById('hw-date')) {
+      document.getElementById('hw-date').value = data.hwDate;
+    }
+    if (data.hwNotes && document.getElementById('hw-notes')) {
+      document.getElementById('hw-notes').value = data.hwNotes;
+    }
+    if (data.hwOutput && document.getElementById('hw-content')) {
+      document.getElementById('hw-content').textContent = data.hwOutput;
+      if (data.hwOutput.length > 0) {
+        document.getElementById('hw-output')?.classList.add('visible');
+        const label = document.getElementById('hw-label');
+        if (label) label.textContent = '✦ Letter for ' + (data.hwName || 'client');
+      }
+    }
+    
+    // Recalculate financial projections if data exists
+    if (data.cad || data.rent || data.food || data.misc) {
+      calcMadrid();
+    }
+    
+  } catch (e) {
+    console.log('Could not restore saved data:', e);
+  }
+}
+
+// Auto-save functionality
+function setupAutoSave() {
+  const inputs = document.querySelectorAll('input, select, textarea');
+  inputs.forEach(input => {
+    input.addEventListener('change', saveAllData);
+    input.addEventListener('blur', saveAllData);
+    input.addEventListener('keyup', debounce(saveAllData, 1000));
+  });
+  
+  // Save every 30 seconds as backup
+  setInterval(saveAllData, 30000);
+}
+
+// Debounce function to prevent too many saves during typing
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Save before page unload
+window.addEventListener('beforeunload', saveAllData);
+
+// Initialize data persistence when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  loadAllData();
+  setupAutoSave();
+});
+
+// Update the existing functions to save data after generating content
+const originalGenerateSpanish = generateSpanish;
+generateSpanish = async function() {
+  await originalGenerateSpanish();
+  saveAllData();
+};
+
+const originalGenerateFarewell = generateFarewell;
+generateFarewell = async function() {
+  await originalGenerateFarewell();
+  saveAllData();
+};
+
+const originalCalcMadrid = calcMadrid;
+calcMadrid = function() {
+  originalCalcMadrid();
+  saveAllData();
+};
+</script>
+</body>
+</html>
